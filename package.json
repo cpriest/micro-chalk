@@ -1,0 +1,11 @@
+{
+  "name": "@cpriest/micro-chalk",
+  "version": "1.0.0",
+  "description": "MicroChalk is a small library for coloring marked up text with ansi codes.  It takes a form similar to that of chalk.",
+  "main": "index.js",
+  "repository": "https://github.com/cpriest/micro-chalk",
+  "author": "Clint Priest",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}
