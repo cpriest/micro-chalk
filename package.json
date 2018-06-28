@@ -6,6 +6,11 @@
   "repository": "https://github.com/cpriest/micro-chalk",
   "author": "Clint Priest",
   "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
+    "@types/jest": "^23.1.1",
+    "jest": "^23.1.0"
   }
 }
