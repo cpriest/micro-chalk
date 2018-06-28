@@ -26,6 +26,8 @@ const FG = `${CSI}${FGC};`;
 const BGC = `48;5`;
 const BG = `${CSI}${BGC};`;
 
+const defaultResetCode = 'White.black';
+
 module.exports = (() => {
 	let mc = function MicroChalk(strings, ...keys) {
 		const args  = [].slice.call(arguments, 1);
@@ -168,8 +170,8 @@ module.exports = (() => {
 	 */
 	function options(opts = { }) {
 		mc.aliases = opts.aliases || mc.aliases || {};
-		mc.pre     = opts.pre || mc.pre;
-		mc.post    = opts.post || mc.post;
+		mc.pre     = 'pre' in opts ? opts.pre : mc.pre;
+		mc.post    = 'post' in opts ? opts.post : mc.post;
 
 		if(opts.resetCode) {
 			// inspect(opts.resetCode);
@@ -184,13 +186,16 @@ module.exports = (() => {
 			// inspect(opts.resetCode);
 			// inspect(convert(opts.resetCode));
 			mc.resetCode = opts.resetCode || mc.resetCode;
+		} else {
+			mc.resetCode = defaultResetCode;
 		}
 		return mc;
 	}
-	mc.options = options;
-	mc.longForms = longForms;
-	mc.aliases = { };
-	mc.resetCode = 'White.black';
+	mc.options    = options;
+	mc.longForms  = longForms;
+	mc.aliases    = { };
+
+	mc.resetCode = defaultResetCode;
 
 	// logInfo(mc`This {red is {blue a test} run}: ${1 + 1}.  {white Yep, {green we {yellow like} ${'{blue template}'} literals}!}`);
 	// logInfo(mc`{red This is an {green previous failure}: {}}`);
