@@ -149,7 +149,7 @@ module.exports = (() => {
 	function colorize(input) {
 		// logInfo('-->\n\t' + input + '\n');
 		// let r      = /{(\S+)\s+([^{}]+?)}/g, m;
-		let r      = /{(\S+)\s+((?:[^{}]|(?:{[^{}]*})*)+)}/g, m;
+		let r      = /{(\S+)\s((?:[^{}]|(?:{[^{}]*})*)+)}/g, m;
 		let output = input;
 
 		// noinspection JSValidateTypes
