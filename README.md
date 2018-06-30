@@ -71,6 +71,7 @@ log`{Magenta There are {Red many colors} {Blue available} for use, {Yellow 256 t
 ![](res/img/NestingStyles.png)
 
 #### Nested Template Literals
+You can nest template literals as deep as you like, each literal will be evaluated and the results may contain further marked sections.  Some sophisticated and pedantic examples are shown below.
 
 ```js
 const log = require('micro-chalk')
