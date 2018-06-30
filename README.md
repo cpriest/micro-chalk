@@ -13,8 +13,6 @@ Most existing ``` chalk `template tag` ``` strings should work out of the box, p
 ---
 ### Quick Example
 
-<img align="right" src="res/img/QuickSample.png">
-
 ```js
 const log = require('micro-chalk');
 
@@ -28,7 +26,7 @@ let str = log`
 
 console.log(str);
 ```
-
+![](res/img/QuickSample.png)
 
 ### Features
   * Simple Foreground/Background/Formatting
@@ -40,8 +38,6 @@ console.log(str);
 ### Examples
 
 #### pre/post options
-
-<img align="right" src="res/img/PostSample.png">
 
 ```js
 const log = require('micro-chalk')
@@ -60,10 +56,10 @@ const log = require('micro-chalk')
 log`{Magenta There are many colors available}`;
 ```
 
+![](res/img/PostSample.png)
+
 #### Nested Styles
 Nesting styles lets you encapsulate styles within one another; when an inner section closes, the fg/bg color states are restored to the containing block.
-
-<img align="right" src="res/img/NestingStyles.png">
 
 ```js
 const log = require('micro-chalk')
@@ -72,9 +68,9 @@ const log = require('micro-chalk')
 log`{Magenta There are {Red many colors} {Blue available} for use, {Yellow 256 to be} exact.}`;
 ```
 
-#### Nested Template Literals
+![](res/img/NestingStyles.png)
 
-<img align="right" src="res/img/NestedTemplateLiterals.png">
+#### Nested Template Literals
 
 ```js
 const log = require('micro-chalk')
@@ -95,10 +91,10 @@ Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
 `;
 ```
 
+![](res/img/NestedTemplateLiterals.png)
+
 #### Aliasing
 Aliasing lets you define aliases for common usage scenarios or define names for those 256 colors at your fingertips.
-
-<img align="right" src="res/img/AliasingSample.png">
 
 ```js
 const log = require('micro-chalk')
@@ -138,7 +134,7 @@ log`
 {grey39 The world {black.White is full} of color, {grey49 why use just grey?}}
 `;
 ```
-
+![](res/img/AliasingSample.png)
 
 ### Notes
   * micro-chalk assumes your output is ansi 256 color compliant
