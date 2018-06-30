@@ -1,30 +1,42 @@
 'use strict';
 
 const longForms = {
-	'black':   0,
-	'red':     1,
-	'green':   2,
-	'yellow':  3,
-	'blue':    4,
-	'magenta': 5,
-	'cyan':    6,
-	'white':   7,
-	'Black':   8,
-	'Red':     9,
-	'Green':   10,
-	'Yellow':  11,
-	'Blue':    12,
-	'Magenta': 13,
-	'Cyan':    14,
-	'White':   15,
+	'black':   0, 'Black': 8,
+	'red':     1, 'Red': 9,
+	'green':   2, 'Green': 10,
+	'yellow':  3, 'Yellow': 11,
+	'blue':    4, 'Blue': 12,
+	'magenta': 5, 'Magenta': 13,
+	'cyan':    6, 'Cyan': 14,
+	'white':   7, 'White': 15,
 };
 
-const ESC = '\x1B'  || 'Ɛ';
+const chalkAliases = {
+	// chalk aliases
+	gray:          'Black',
+	redBright:     'Red',
+	greenBright:   'Green',
+	yellowBright:  'Yellow',
+	blueBright:    'Blue',
+	magentaBright: 'Magenta',
+	cyanBright:    'Cyan',
+	whiteBright:   'White',
+	bgBlack:       '.black', bgBlackBright: '.Black',
+	bgRed:         '.red', bgRedBright: '.Red',
+	bgGreen:       '.green', bgGreenBright: '.Green',
+	bgYellow:      '.yellow', bgYellowBright: '.Yellow',
+	bgBlue:        '.blue', bgBlueBright: '.Blue',
+	bgMagenta:     '.magenta', bgMagentaBright: '.Magenta',
+	bgCyan:        '.cyan', bgCyanBright: '.Cyan',
+	bgWhite:       '.white', bgWhiteBright: '.White',
+};
+
+const ESC = '\x1B' || 'Ɛ';
 const CSI = `${ESC}[`;
 const FGC = `38;5`;
-const FG = `${CSI}${FGC};`;
+const FG  = `${CSI}${FGC};`;
 const BGC = `48;5`;
-const BG = `${CSI}${BGC};`;
+const BG  = `${CSI}${BGC};`;
 
 const defaultResetCode = 'White.black';
 
@@ -64,6 +76,9 @@ module.exports = (() => {
 		while(mc.aliases[desc])
 			desc = mc.aliases[desc];
 
+		while(chalkAliases[desc])
+			desc = chalkAliases[desc];
+
 		if(!isNaN(parseInt(desc)))
 			return parseInt(desc);
 
@@ -81,13 +96,16 @@ module.exports = (() => {
 		while(mc.aliases[input])
 			input = String(mc.aliases[input]);
 
-		let [ fg, bg ] = input.split('.');
-		let [ fgCode, bgCode] = [ resolve(fg), resolve(bg) ];
+		while(chalkAliases[input])
+			input = chalkAliases[input];
+
+		let [fg, bg]         = input.split('.');
+		let [fgCode, bgCode] = [resolve(fg), resolve(bg)];
 
 		// if(mon)
 		// 	inspect([input, fg, bg, fgCode, bgCode]);
 
-		let open = [ ], close = [ ];
+		let open = [], close = [];
 
 		if(fgCode != undefined) {
 			open.push(`${FG}${fgCode}m`);
@@ -100,9 +118,9 @@ module.exports = (() => {
 		}
 
 		return {
-			open:  open.join(''),
-			opens: open,
-			close: close.join(''),
+			open:   open.join(''),
+			opens:  open,
+			close:  close.join(''),
 			closes: close,
 		};
 	}
@@ -115,10 +133,10 @@ module.exports = (() => {
 	 */
 	function unroll(input) {
 		let r     = new RegExp(`${ESC}\\[((?:38|48);[25]);?(\\d*)m`, 'g'),
-			stack = { }, m;
+			stack = {}, m;
 
 		let open = convert(mc.resetCode).open;
-		input = open + input;
+		input    = open + input;
 
 		// noinspection JSValidateTypes
 		while((m = r.exec(input)) !== null) {
@@ -135,7 +153,7 @@ module.exports = (() => {
 				if(stack[type].length)
 					reset = `\x1B[${type};${stack[type].slice(-1)}m`;
 
-				input   = input.slice(0, m.index) + reset + input.slice(m.index + m[0].length);
+				input = input.slice(0, m.index) + reset + input.slice(m.index + m[0].length);
 			}
 		}
 		return input.slice(open.length);
@@ -168,7 +186,7 @@ module.exports = (() => {
 	 *
 	 * @param {MicroChalk.Options} opts
 	 */
-	function options(opts = { }) {
+	function options(opts = {}) {
 		mc.aliases = opts.aliases || mc.aliases || {};
 		mc.pre     = 'pre' in opts ? opts.pre : mc.pre;
 		mc.post    = 'post' in opts ? opts.post : mc.post;
@@ -191,9 +209,10 @@ module.exports = (() => {
 		}
 		return mc;
 	}
-	mc.options    = options;
-	mc.longForms  = longForms;
-	mc.aliases    = { };
+
+	mc.options   = options;
+	mc.longForms = longForms;
+	mc.aliases   = {};
 
 	mc.resetCode = defaultResetCode;
 

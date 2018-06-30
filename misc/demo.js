@@ -1,4 +1,4 @@
-let log = require('../');
+let log = require('../'), str;
 
 const ESC = '\x1B';
 const CSI = `${ESC}[`;
@@ -18,9 +18,9 @@ ${left} ${title} ${right}
 console.log(FULL_RESET);
 
 /******************************************************************************/
-br('Sample 1');
+br('Quick Sample');
 
-let str = log`
+str = log`
 {red The color red is nice.}
 {green green is nice too!}
 
@@ -32,7 +32,43 @@ console.log(str);
 
 
 /******************************************************************************/
-br('Sample 2');
+br('Formatting Sample');
+
+str = log`
+{black.White black text on White background.}
+        {black.white black text on white background.}
+{Black.White Black text on White background.}
+        {Black.white Black text on white background.}
+
+    {Yellow Note the case difference of white vs White, all colors are this way.}
+        {white Lowercase is dim} and {White Title case is bright.}
+            red -> Red, blue -> Blue, etc.
+        
+        chalk          micro-chalk
+          {red red}            {red red}
+          {redBright redBright}      {Red Red}
+    	 
+          {green green}          {green green}
+          {greenBright greenBright}    {Green Green}
+          
+          {bgBlue bgBlue}         {.blue .blue}
+          {bgBlueBright bgBlueBright}   {.Blue .Blue}
+
+          {bgRed bgRed}          {.red .red}
+          {bgRedBright bgRedBright}    {.Red .Red}
+
+
+{White.Red Sample of White on Red.}
+        {White.red Sample of White on red.}
+{White.Blue Sample of White on Blue.}
+        {White.blue Sample of White on blue.}
+`;
+
+console.log(str);
+
+
+/******************************************************************************/
+br('Post Sample');
 
 log = require('../')
 	.options({
@@ -51,7 +87,7 @@ log`{Magenta There are many colors available}`;
 
 
 /******************************************************************************/
-br('Sample 3');
+br('Nesting Styles Sample');
 
 log = require('../')
 	.options({ post: (output) => {console.log(output);return output;} });
@@ -60,7 +96,7 @@ log`{Magenta There are {Red many colors} {Blue available} for use, {Yellow 256 t
 
 
 /******************************************************************************/
-br('Sample 4');
+br('NestedTemplateLiterals Sample');
 
 log = require('../')
 	.options({ post: (output) => {console.log(output);return output;} });
@@ -81,7 +117,7 @@ Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
 
 
 /******************************************************************************/
-br('Sample ?');
+br('Rainbow Sample');
 
 log = require('../')
 	.options({
@@ -121,7 +157,7 @@ log`${rainbow("It's a cornucopia of skittles, taste the rainbow!")}`;
 
 
 /******************************************************************************/
-br('Sample 5');
+br('Aliasing Sample');
 
 log = require('../')
 	.options({

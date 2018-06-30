@@ -37,6 +37,47 @@ console.log(str);
 
 ### Examples
 
+#### Foreground/Background/Formatting
+Unlike chalk, the first color to be referenced is assumed to be the foreground color while the second is assumed to be the background color.  This lets us have the same color names for little extra effort.
+
+```js
+const log = require('micro-chalk');
+
+let str = log`
+{black.White black text on White background.}
+        {black.white black text on white background.}
+{Black.White Black text on White background.}
+        {Black.white Black text on white background.}
+
+    {Yellow Note the case difference of white vs White, all colors are this way.}
+        {white Lowercase is dim} and {White Title case is bright.}
+            red -> Red, blue -> Blue, etc.
+        
+        chalk          micro-chalk
+          {red red}            {red red}
+          {redBright redBright}      {Red Red}
+    	 
+          {green green}          {green green}
+          {greenBright greenBright}    {Green Green}
+          
+          {bgBlue bgBlue}         {.blue .blue}
+          {bgBlueBright bgBlueBright}   {.Blue .Blue}
+
+          {bgRed bgRed}          {.red .red}
+          {bgRedBright bgRedBright}    {.Red .Red}
+
+
+{White.Red Sample of White on Red.}
+        {White.red Sample of White on red.}
+{White.Blue Sample of White on Blue.}
+        {White.blue Sample of White on blue.}
+`;
+
+console.log(str);
+```
+
+![](res/img/FormattingSample.png)
+
 #### pre/post options
 
 ```js
