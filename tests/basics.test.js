@@ -220,3 +220,23 @@ describe('option tests', () => {
 			.toBe(`${FG}207mpink fg${FG_RSET}`);
 	});
 });
+
+describe('chalk test strings', () => {
+
+	test('fg test', () => {
+		expect(log`{redBright redBright}`)
+			.toBe(`${FG}${Red}redBright${FG_RSET}`);
+	});
+
+	test('bg test', () => {
+		expect(log`{bgBlueBright bgBlueBright}`)
+			.toBe(`${BG}${Blu}bgBlueBright${BG_RSET}`);
+	});
+
+	test('fg/bg test', () => {
+		expect(log`{whiteBright.bgBlueBright whiteBright.bgBlueBright}`)
+			.toBe(`${FG}${Whi}${BG}${Blu}whiteBright.bgBlueBright${FULL_RSET}`);
+	});
+
+
+});

@@ -11,6 +11,10 @@ const longForms = {
 	'white':   7, 'White': 15,
 };
 
+/**
+ *
+ * @type Object<String,String>
+ */
 const chalkAliases = {
 	// chalk aliases
 	gray:          'Black',
@@ -76,8 +80,11 @@ module.exports = (() => {
 		while(mc.aliases[desc])
 			desc = mc.aliases[desc];
 
-		while(chalkAliases[desc])
+		while(chalkAliases[desc]) {
 			desc = chalkAliases[desc];
+			if(desc[0] == '.')
+				desc = desc.substr(1);
+		}
 
 		if(!isNaN(parseInt(desc)))
 			return parseInt(desc);
@@ -96,7 +103,7 @@ module.exports = (() => {
 		while(mc.aliases[input])
 			input = String(mc.aliases[input]);
 
-		while(chalkAliases[input])
+		if(chalkAliases[input])
 			input = chalkAliases[input];
 
 		let [fg, bg]         = input.split('.');
