@@ -1,27 +1,49 @@
 # micro-chalk
-MicroChalk is a small library for coloring marked up text with ansi codes.  It takes a form similar to that of chalk. It's aim was to be smaller, more flexible and no dependencies, but slightly more opinionated.
+MicroChalk is a small library for coloring text with ansi codes in a form similar to chalk.
 
-Most existing `chalk template tag` strings should work out of the box, please report if you find a discrepancy.
+#### Project Aims
+
+* To be smaller
+* More flexible
+* With no dependencies
+* Slightly more opinionated.
+
+Most existing ``` chalk `template tag` ``` strings should work out of the box, please report if you find a discrepancy.
 
 ---
 ### Quick Example
 
-```
+<img align="right" src="res/img/QuickSample.png">
+
+```js
 const log = require('micro-chalk');
 
-console.log(log`{red The color red is nice.}`);
-console.log(log`{green green is nice too!}`);
-console.log(log`{Red Is this a better red?}`);
-console.log(log`{Green Is this a better green?}`);
+let str = log`
+{red The color red is nice.}
+{green green is nice too!}
+
+{Red Is this a better red?}
+{Green Is this a better green?}
+`;
+
+console.log(str);
 ```
 
 
-## Features
-There are several convenient features worth mentioning.
+### Features
+  * Simple Foreground/Background/Formatting
+  * Allows Nested Styles
+  * Allows Nested [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals)
+  * Aliases / Nested Aliases
+  * pre/post Hooks
+
+### Examples
 
 #### pre/post options
 
-```
+<img align="right" src="res/img/PostSample.png">
+
+```js
 const log = require('micro-chalk')
     .options( {
         pre: (input) => {
@@ -38,18 +60,47 @@ const log = require('micro-chalk')
 log`{Magenta There are many colors available}`;
 ```
 
-#### Unrolling
-Unrolling lets you encapsulate sections within one another, when an inner section completes, the fg/bg color states are restored to the containing block.
-```
+#### Nested Styles
+Nesting styles lets you encapsulate styles within one another; when an inner section closes, the fg/bg color states are restored to the containing block.
+
+<img align="right" src="res/img/NestingStyles.png">
+
+```js
 const log = require('micro-chalk')
     .options( { post: (output) => { console.log(output); return output; } } );
 
 log`{Magenta There are {Red many colors} {Blue available} for use, {Yellow 256 to be} exact.}`;
 ```
 
+#### Nested Template Literals
+
+<img align="right" src="res/img/NestedTemplateLiterals.png">
+
+```js
+const log = require('micro-chalk')
+    .options( { post: (output) => { console.log(output); return output; } } );
+
+function check(value) {
+    if(value >= .98)
+        return `{Green ${value * 100}%}`;
+    if(value >= .70)
+        return `{black.Yellow ${value * 100}%}`;
+    return `{White.Red ${value * 100}%}`;
+}
+
+log`
+   Battery: ${check(.99)}
+  CPU Load: ${check(.78)}   ${'{Yellow Warning}'}
+Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
+`;
+```
+
 #### Aliasing
 Aliasing lets you define aliases for common usage scenarios or define names for those 256 colors at your fingertips.
-```
+
+<img align="right" src="res/img/AliasingSample.png">
+
+```js
 const log = require('micro-chalk')
     .options( {
         aliases: {
@@ -81,6 +132,10 @@ log`
   White on blue used to be a common color scheme.
 
 }
+
+{pink Some people prefer pink}, {RED to red}, {BLU others like blue}.
+
+{grey39 The world {black.White is full} of color, {grey49 why use just grey?}}
 `;
 ```
 
