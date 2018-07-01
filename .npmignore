@@ -1,0 +1,9 @@
+tests/
+misc/
+res/
+.editorconfig
+yarn.lock
+package-lock.json
+.gitignore
+.idea/
+*.tgz
