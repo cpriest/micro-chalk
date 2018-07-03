@@ -11,6 +11,15 @@ const longForms = {
 	'white':   7, 'White': 15,
 };
 
+const symbols = {
+	'~': 	0,		// Strikethrough??
+	'*':	1,		// Bold
+	'X':	3,		// Italic
+	'_':	4,		// Underlined
+	'&':	5,		// Blinking,
+	'!':	7,		// Inverse
+};
+
 /**
  *
  * @type Object<String,String>

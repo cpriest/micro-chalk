@@ -7,3 +7,5 @@ package-lock.json
 .gitignore
 .idea/
 *.tgz
+Notepad.md
+@types/JetBrains.d.ts

@@ -1,32 +1,7 @@
 'use strict';
 
 // noinspection ConstantConditionalExpressionJS
-const ESC = true ? 'Ɛ' : '\x1B';
-
-const CSI = `${ESC}[`;
-const FG  = `${CSI}38;5;`;
-const BG  = `${CSI}48;5;`;
-
-const bla = '0m';
-const red = '1m';
-const gre = '2m';
-const yel = '3m';
-const blu = '4m';
-const mag = '5m';
-const cya = '6m';
-const whi = '7m';
-const Bla = '8m';
-const Red = '9m';
-const Gre = '10m';
-const Yel = '11m';
-const Blu = '12m';
-const Mag = '13m';
-const Cya = '14m';
-const Whi = '15m';
-
-const FG_RSET   = `${FG}15m`;
-const BG_RSET   = `${BG}0m`;
-const FULL_RSET = `${FG_RSET}${BG_RSET}`;
+require('../misc/globals.js')(true ? 'Ɛ' : '\x1B');
 
 const baseOptions = {
 	// No pre-defined aliases

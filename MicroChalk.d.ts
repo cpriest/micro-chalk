@@ -2,8 +2,6 @@
 // Project: cpriest/MicroChalk
 // Definitions by: Clint Priest <https://github.com/cpriest>
 
-// export module MicroChalk {
-
 declare namespace MicroChalk {
 	  type AnsiCode = number;
 	  type Alias = string | AnsiCode;
