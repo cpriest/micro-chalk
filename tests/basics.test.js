@@ -17,8 +17,7 @@ const baseOptions = {
 	resetCode: undefined,
 };
 
-let log = require('../')
-	.options(baseOptions);
+let log = require('../');
 
 beforeEach(() => {
 	log.options(baseOptions);

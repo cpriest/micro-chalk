@@ -1,5 +1,9 @@
 'use strict';
 
+function inspect(...x) {
+	console.log(require('util').inspect(x));
+}
+
 const longForms = {
 	'black':   0, 'Black': 8,
 	'red':     1, 'Red': 9,
@@ -188,9 +192,9 @@ module.exports = (() => {
 
 		// noinspection JSValidateTypes
 		while((m = r.exec(input)) !== null) {
-			// inspect(m);
 			let { open, close } = convert(m[1]);
 			output              = output.replace(m[0], open + m[2] + close);
+			// inspect(m, output);
 		}
 		if(input != output)
 			return colorize(output);
