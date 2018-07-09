@@ -1,5 +1,10 @@
 'use strict';
 
+function inspect(...x) {
+	console.log(require('util')
+		.inspect(x.length > 1 ? x : x[0]));
+}
+
 const longForms = {
 	'black':   0, 'Black': 8,
 	'red':     1, 'Red': 9,
@@ -50,6 +55,11 @@ const symbols = {
 	'!': 7,		// Inverse
 };
 
+const AnsiCSI = {
+	'FG' : CSI + FGC + ';',
+	'BG' : CSI + BGC + ';',
+};
+
 const defaultResetCode = 'White.black';
 
 class ANSI {
@@ -73,39 +83,52 @@ class ANSI {
 		if(chalkAliases[input])
 			input = chalkAliases[input];
 
-		let [fg, bg]         = input.split('.');
-		let [fgCode, bgCode] = [this.resolve(fg), this.resolve(bg)];
-
-		let open = [], close = [];
-
-		if(fgCode != undefined) {
-			open.push(`${FG}${fgCode}m`);
-			close.push(`${FG}m`);				// Note, this is an invalid sequence which is post-processed by unroll()
+		function nextColor(result) {
+			return ['FG','BG','_'].find(
+				x => !(x in result.types)
+			);
 		}
 
-		if(bgCode != undefined) {
-			open.push(`${BG}${bgCode}m`);
-			close.push(`${BG}m`);				// Note, this is an invalid sequence which is post-processed by unroll()
+		let result = input
+			.split('.')
+			.reduce((result, desc) => {
+				let { SgrType, code } = this.resolve(desc);
+
+				if(SgrType === 'color') {
+					let next = nextColor(result);
+
+					if(next === '_')
+						throw `Extraneous color (${desc}) specified in ${input}, only two colors may be declared per tag pair.`;
+
+					result.types[next] = code;
+
+					return result;
+				}
+				throw `Unknown type (${SgrType}) in ANSI::resolve()`;
+			}, { types: { }, open: '' }
+		);
+
+		for(let [type, code] of Object.entries(result.types) ) {
+			if(code === undefined) {
+				delete result.types[type];
+				continue;
+			}
+			result.types[type] = AnsiCSI[type] + code + 'm';
+			result.open += result.types[type];
 		}
 
-		return {
-			open:   open.join(''),
-			opens:  open,
-			close:  close.join(''),
-			closes: close,
-		};
-
+		return result;
 	}
 
 	/**
 	 * Resolves ${desc} into an {Alias} or {AnsiCode}
 	 * @param {MicroChalk.Alias} desc
 	 *
-	 * @returns {MicroChalk.AnsiCode|MicroChalk.Alias}
+	 * @returns {object}
 	 */
 	resolve(desc) {
 		if(desc == undefined)
-			return desc;
+			return { SgrType: 'color', code: undefined };
 
 		while(this.aliases[desc])
 			desc = this.aliases[desc];
@@ -117,9 +140,9 @@ class ANSI {
 		}
 
 		if(!isNaN(parseInt(desc)))
-			return parseInt(desc);
+			return { SgrType: 'color', code: parseInt(desc) };
 
-		return this.longForms[desc];
+		return { SgrType: 'color', code: this.longForms[desc] }
 	}
 
 	/**
