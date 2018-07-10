@@ -44,6 +44,7 @@ describe('ANSI', () => {
 
 		});
 	});
+
 	describe('Nesting', () => {
 
 		test('Nested fg coloring', () => {

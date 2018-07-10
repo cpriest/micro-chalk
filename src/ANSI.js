@@ -1,10 +1,5 @@
 'use strict';
 
-function inspect(...x) {
-	console.log(require('util')
-		.inspect(x.length > 1 ? x : x[0]));
-}
-
 const longForms = {
 	'black':   0, 'Black': 8,
 	'red':     1, 'Red': 9,
@@ -154,7 +149,6 @@ class ANSI {
 		this.aliases = opts.aliases || this.aliases || {};
 
 		if(opts.resetCode) {
-			// inspect(opts.resetCode);
 			switch(opts.resetCode.indexOf('.')) {
 				case -1:
 					opts.resetCode += '.black';
@@ -163,8 +157,6 @@ class ANSI {
 					opts.resetCode = 'White' + opts.resetCode;
 					break;
 			}
-			// inspect(opts.resetCode);
-			// inspect(convert(opts.resetCode));
 			this.resetCode = opts.resetCode || this.resetCode;
 		} else {
 			this.resetCode = defaultResetCode;
