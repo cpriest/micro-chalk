@@ -11,5 +11,7 @@ global.inspect = function inspect(...x) {
 		require('util')
 			.inspect(x.length > 1 ? x : x[0]) + '\r\n');
 };
+global.dl = console.log;
 
-global.log = console.log;
+
+global.dl = global.inspect = function() {};

@@ -1,5 +1,7 @@
 'use strict';
 
+let Parser = require('./Parser');
+
 const longForms = {
 	'black':   0, 'Black': 8,
 	'red':     1, 'Red': 9,
@@ -57,11 +59,15 @@ const AnsiCSI = {
 
 const defaultResetCode = 'White.black';
 
-class ANSI {
+class ANSI extends Parser {
 	constructor() {
+		super();
+
 		this.longForms = longForms;
 		this.aliases   = {};
 		this.resetCode = defaultResetCode;
+
+		return this.proxy();
 	}
 
 	/**
@@ -117,6 +123,7 @@ class ANSI {
 
 	/**
 	 * Resolves ${desc} into an {Alias} or {AnsiCode}
+	 *
 	 * @param {MicroChalk.Alias} desc
 	 *
 	 * @returns {object}
@@ -161,6 +168,7 @@ class ANSI {
 		} else {
 			this.resetCode = defaultResetCode;
 		}
+		return super.options(opts);
 	}
 }
 

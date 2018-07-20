@@ -1,6 +1,6 @@
 #### Ideas / Plans
  * \*bold\* & other markups similar to markdown
- * Refactor index.js into a class
+ * ~~Refactor index.js into a class~~
  * Possibly change options()/library to be functional
  * Better/Complete typescript definitions
  * ~~Refactor ANSI into its own class holding deviations from base markup algorithm~~
