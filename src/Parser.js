@@ -98,9 +98,9 @@ class Parser {
 
 		// noinspection JSValidateTypes
 		while((m = r.exec(input)) !== null) {
-			let { types, open } = this.xlate(m[1]);
+			let { types, open, close } = this.xlate(m[1]);
 
-			let close = Object.keys(types)
+			close += Object.keys(types)
 				.filter(x => x in prevTypes)
 				.reduce((close, x) => close + prevTypes[x], '');
 

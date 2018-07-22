@@ -43,18 +43,31 @@ const FG  = `${CSI}${FGC};`;
 const BGC = `48;5`;
 const BG  = `${CSI}${BGC};`;
 
-const symbols = {
-	'~': 0,		// Strikethrough??
-	'*': 1,		// Bold
-	'X': 3,		// Italic
-	'_': 4,		// Underlined
-	'&': 5,		// Blinking,
-	'!': 7,		// Inverse
+const SgrMarkup = {
+	'bold':       [1, 22],	// Bold
+	'dim':        [2, 22],	// Dim
+	'italic':     [3, 23],	// Italic
+	'underline':  [4, 24],	// Underlined
+	'blink':      [5, 25],	// Blinking
+	'inverse':    [7, 27],	// Inverse
+	'hidden':     [8, 28],	// Hidden
+	'strike':     [9, 29],	// Strikethrough
+};
+
+const SgrAliases = {
+	'*': 'bold',		// Bold
+	':': 'dim',			// Dim
+	'X': 'italic',		// Italic
+	'_': 'underline',	// Underlined
+	'&': 'blink',		// Blinking
+	'!': 'inverse',		// Inverse
+	'=': 'hidden',		// Hidden
+	'~': 'strike',		// Strikethrough
 };
 
 const AnsiCSI = {
-	'FG' : CSI + FGC + ';',
-	'BG' : CSI + BGC + ';',
+	'FG': CSI + FGC + ';',
+	'BG': CSI + BGC + ';',
 };
 
 const defaultResetCode = 'White.black';
@@ -85,7 +98,7 @@ class ANSI extends Parser {
 			input = chalkAliases[input];
 
 		function nextColor(result) {
-			return ['FG','BG','_'].find(
+			return ['FG', 'BG', '_'].find(
 				x => !(x in result.types)
 			);
 		}
@@ -93,30 +106,37 @@ class ANSI extends Parser {
 		let result = input
 			.split('.')
 			.reduce((result, desc) => {
-				let { SgrType, code } = this.resolve(desc);
+					let { SgrType, code } = this.resolve(desc);
 
-				if(SgrType === 'color') {
-					let next = nextColor(result);
+					if(SgrType === 'color') {
+						let next = nextColor(result);
 
-					if(next === '_')
-						throw `Extraneous color (${desc}) specified in ${input}, only two colors may be declared per tag pair.`;
+						if(next === '_')
+							throw `Extraneous color (${desc}) specified in ${input}, only two colors may be declared per tag pair.`;
 
-					result.types[next] = code;
+						result.types[next] = code;
 
-					return result;
-				}
-				throw `Unknown type (${SgrType}) in ANSI::resolve()`;
-			}, { types: { }, open: '' }
-		);
+						return result;
+					} else if (SgrType === 'attr') {
+						result.open += CSI + code[0] + 'm';
+						result.close += CSI + code[1] + 'm';
+						return result;
+					}
+					throw `Unknown type (${SgrType}) in ANSI::xlate()`;
+				}, { types: {}, open: '', close: '' }
+			);
 
-		for(let [type, code] of Object.entries(result.types) ) {
+		let colorOpen = '';
+		for(let [type, code] of Object.entries(result.types)) {
 			if(code === undefined) {
 				delete result.types[type];
 				continue;
 			}
 			result.types[type] = AnsiCSI[type] + code + 'm';
-			result.open += result.types[type];
+			colorOpen += result.types[type];
 		}
+
+		result.open = colorOpen + result.open;
 
 		return result;
 	}
@@ -144,7 +164,10 @@ class ANSI extends Parser {
 		if(!isNaN(parseInt(desc)))
 			return { SgrType: 'color', code: parseInt(desc) };
 
-		return { SgrType: 'color', code: this.longForms[desc] }
+		if(SgrMarkup[desc])
+			return { SgrType: 'attr', code: SgrMarkup[desc] };
+
+		return { SgrType: 'color', code: this.longForms[desc] };
 	}
 
 	/**
