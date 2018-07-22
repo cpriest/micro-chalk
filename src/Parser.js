@@ -7,19 +7,30 @@ function replacer(pairs, str) {
 }
 
 /**
- * At present, any \\{ or \\} must be masked with some other code and later unmasked
- * to work properly with our current regular expression pattern/method
+ * This masks all backslash escaped characters by making them \zXX where XX is the ascii hex code for the escaped character.
+ *
+ * @param {string} input
+ *
+ * @return {string}
  */
-/** @type {function} */
-let mask   = replacer.bind(undefined, {
-	'\\{': '\x01\x01',
-	'\\}': '\x01\x02',
-});
-/** @type {function} */
-let unmask = replacer.bind(undefined, {
-	'\x01\x01': '\\{',
-	'\x01\x02': '\\}',
-});
+function mask(input) {
+	return input.replace(/\\(.)/g, (s) => {
+		return '\\z' + s.charCodeAt(1).toString(16);
+	});
+}
+
+/**
+ * This is the complement of mask() and converts \zXX sequences to their ascii character and removes the backslash
+ *
+ * @param {string} input
+ *
+ * @return {string}
+ */
+function unmask(input) {
+	return input.replace(/\\z(..)/g, (s, ...match) => {
+		return String.fromCharCode(parseInt(match[0], 16));
+	});
+}
 
 class Parser {
 	constructor() {
@@ -75,8 +86,9 @@ class Parser {
 	 * Break apart the input string based on the { } brackets and pass the bracket
 	 * description to xlate for open/close information, recurse as needed.
 	 *
-	 * @param {string} input
-	 * @param {object?} prevTypes
+	 * @param {string} input		The input string as it comes back from the tagged template literal or inception
+	 * @param {object?} prevTypes	The active types from the previous context
+	 *
 	 * @returns {string}
 	 */
 	markup(input, prevTypes = this.xlate(this.resetCode).types) {
