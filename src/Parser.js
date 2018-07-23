@@ -1,11 +1,5 @@
 'use strict';
 
-function replacer(pairs, str) {
-	for(let [k, v] of Object.entries(pairs))
-		str = str.replace(k, v);
-	return str;
-}
-
 /**
  * This masks all backslash escaped characters by making them \zXX where XX is the ascii hex code for the escaped character.
  *
@@ -15,7 +9,8 @@ function replacer(pairs, str) {
  */
 function mask(input) {
 	return input.replace(/\\(.)/g, (s) => {
-		return '\\z' + s.charCodeAt(1).toString(16);
+		return '\\z' + s.charCodeAt(1)
+			.toString(16);
 	});
 }
 
@@ -86,32 +81,67 @@ class Parser {
 	 * Break apart the input string based on the { } brackets and pass the bracket
 	 * description to xlate for open/close information, recurse as needed.
 	 *
-	 * @param {string} input		The input string as it comes back from the tagged template literal or inception
-	 * @param {object?} prevTypes	The active types from the previous context
+	 * @param {string} input   Input string from the template literal tag function
 	 *
-	 * @returns {string}
+	 * @returns {string}       Resulting translation of the marked up input
 	 */
-	markup(input, prevTypes = this.xlate(this.resetCode).types) {
-		let r      = /{(\S+)\s((?:[\\].|[^{}]|(?:{[^{}]*})*)+)}/g,
-			output = input,
+	markup(input) {
+		let [output, entries] = this.extract(input);
+
+		/**
+		 * Recursive expansion of extracted string entries until no further extracted strings remain
+		 *
+		 * @param {string} input
+		 * @param {object} prevTypes
+		 *
+		 * @return {string}
+		 */
+		let expand = (input, prevTypes) => {
+			let r      = /\x1A(\d+)/g,
+				output = input,
+				m;
+
+			// noinspection JSValidateTypes
+			while((m = r.exec(input)) !== null) {
+				let entry                  = entries[parseInt(m[1])];
+				let { types, open, close } = this.xlate(entry[0]);
+
+				close += Object.keys(types)
+					.filter(x => x in prevTypes)
+					.reduce((close, x) => close + prevTypes[x], '');
+
+				output = output.replace(m[0],					// Replace match
+					expand(open + entry[1] + close,				// with re-processed string
+						Object.assign({}, prevTypes, types),	// Passing in our previous types overlayed with our current types
+					),
+				);
+			}
+			return output;
+		};
+
+		return expand(output, this.xlate(this.resetCode).types);
+	}
+
+	/**
+	 * Extracts the smallest { } pair and stores it as an entry in an array, replacing the match with the entry index.
+	 *    This process repeats until there are no further bracket pairs
+	 *
+	 * @param {string} input
+	 * @return {[string, array]}
+	 */
+	extract(input) {
+		let r       = /{(\S+)\s([^{}]+)}/g,
+			entries = [],
 			m;
 
 		// noinspection JSValidateTypes
 		while((m = r.exec(input)) !== null) {
-			let { types, open, close } = this.xlate(m[1]);
-
-			close += Object.keys(types)
-				.filter(x => x in prevTypes)
-				.reduce((close, x) => close + prevTypes[x], '');
-
-			output = output.replace(m[0],					// Replace match
-				this.markup(open + m[2] + close,			// with re-processed string
-					Object.assign({}, prevTypes, types),	// Passing in our previous types overlayed with our current types
-				),
-			);
+			r.lastIndex = 0;
+			entries.push(m.slice(1, 3));
+			input = input.replace(m[0], String.fromCharCode(26) + (entries.length - 1));
 		}
 
-		return output;
+		return [input, entries];
 	}
 
 	/**
