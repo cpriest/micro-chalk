@@ -43,26 +43,27 @@ const FG  = `${CSI}${FGC};`;
 const BGC = `48;5`;
 const BG  = `${CSI}${BGC};`;
 
-const SgrMarkup = {
-	'bold':       [1, 22],	// Bold
-	'dim':        [2, 22],	// Dim
-	'italic':     [3, 23],	// Italic
-	'underline':  [4, 24],	// Underlined
-	'blink':      [5, 25],	// Blinking
-	'inverse':    [7, 27],	// Inverse
-	'hidden':     [8, 28],	// Hidden
-	'strike':     [9, 29],	// Strikethrough
+const SgrAttributeCodes = {
+	'bold':      [1, 22],	// Bold
+	'dim':       [2, 22],	// Dim
+	'italic':    [3, 23],	// Italic
+	'underline': [4, 24],	// Underlined
+	'blink':     [5, 25],	// Blinking
+	'inverse':   [7, 27],	// Inverse
+	'hidden':    [8, 28],	// Hidden
+	'strike':    [9, 29],	// Strikethrough
 };
 
-const SgrAliases = {
-	'*': 'bold',		// Bold
-	':': 'dim',			// Dim
-	'X': 'italic',		// Italic
-	'_': 'underline',	// Underlined
-	'&': 'blink',		// Blinking
-	'!': 'inverse',		// Inverse
-	'=': 'hidden',		// Hidden
-	'~': 'strike',		// Strikethrough
+// The entire match is replaced with {value Match0}
+const patternAliases = {
+	'\\*([^\\*]*?)\\*': 'bold',			// Bold
+//	'\\:([^\\:]*?)\\:': 'dim',			// Dim
+//	'\\#([^\\#]*?)\\#': 'italic',		// Italic
+	'\\_([^\\_]*?)\\_': 'underline',	// Underlined
+//	'\\&([^\\&]*?)\\&': 'blink',		// Blinking
+//	'\\!([^\\!]*?)\\!': 'inverse',		// Inverse
+//	'\\=([^\\=]*?)\\=': 'hidden',		// Hidden
+	'\\~([^\\~]*?)\\~': 'strike',		// Strikethrough
 };
 
 const AnsiCSI = {
@@ -76,11 +77,52 @@ class ANSI extends Parser {
 	constructor() {
 		super();
 
-		this.longForms = longForms;
-		this.aliases   = {};
-		this.resetCode = defaultResetCode;
+		this.longForms      = longForms;
+		this.aliases        = {};
+		this.resetCode      = defaultResetCode;
+		this.patternAliases = patternAliases;
+		this.attrCodes      = SgrAttributeCodes;
 
 		return this.proxy();
+	}
+
+	/**
+	 * Handle non-base Parser markup, such as *bold*, then pass on to parent
+	 *
+	 * @param {string} input   Input string from the template literal tag function
+	 *
+	 * @returns {string}       Resulting translation of the marked up input
+	 */
+	markup(input) {
+		let pattern = Object
+			.keys(this.patternAliases)
+			.join('|');
+
+
+		let output  = input,
+			entries = Object.entries(this.patternAliases),
+			max     = entries.length + 1;
+
+		let r = new RegExp(pattern, 'g'),
+			m;
+
+		// noinspection JSValidateTypes
+		while((m = r.exec(output)) !== null) {
+			for(let j = 1; j <= max; j++) {
+				if(m[j] !== undefined) {
+					// j - 1 is the index of the matching patternAlias, [1] is the value to the pattern key
+					let desc = Object.entries(this.patternAliases)[j - 1][1];
+
+					output = output.replace(m[0], `{${desc} ${m[j]}}`);
+
+					// Backtrack to beginning of our match
+					r.lastIndex -= m[0].length;
+					break;	// for loop
+				}
+			}
+		}
+
+		return super.markup(output);
 	}
 
 	/**
@@ -99,7 +141,7 @@ class ANSI extends Parser {
 
 		function nextColor(result) {
 			return ['FG', 'BG', '_'].find(
-				x => !(x in result.types)
+				x => !(x in result.types),
 			);
 		}
 
@@ -117,13 +159,13 @@ class ANSI extends Parser {
 						result.types[next] = code;
 
 						return result;
-					} else if (SgrType === 'attr') {
+					} else if(SgrType === 'attr') {
 						result.open += CSI + code[0] + 'm';
 						result.close += CSI + code[1] + 'm';
 						return result;
 					}
 					throw `Unknown type (${SgrType}) in ANSI::xlate()`;
-				}, { types: {}, open: '', close: '' }
+				}, { types: {}, open: '', close: '' },
 			);
 
 		let colorOpen = '';
@@ -164,8 +206,8 @@ class ANSI extends Parser {
 		if(!isNaN(parseInt(desc)))
 			return { SgrType: 'color', code: parseInt(desc) };
 
-		if(SgrMarkup[desc])
-			return { SgrType: 'attr', code: SgrMarkup[desc] };
+		if(this.attrCodes[desc])
+			return { SgrType: 'attr', code: this.attrCodes[desc] };
 
 		return { SgrType: 'color', code: this.longForms[desc] };
 	}
@@ -176,7 +218,8 @@ class ANSI extends Parser {
 	 * @param {MicroChalk.Options} opts
 	 */
 	options(opts = {}) {
-		this.aliases = opts.aliases || this.aliases || {};
+		this.aliases        = opts.aliases || this.aliases || {};
+		this.patternAliases = opts.patternAliases || this.patternAliases || {};
 
 		if(opts.resetCode) {
 			switch(opts.resetCode.indexOf('.')) {
