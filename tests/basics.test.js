@@ -207,6 +207,30 @@ describe('ANSI', () => {
 		});
 	});
 
+	describe('pattern aliasing', () => {
+
+		test('Builtin Bold, Strikeout and Underline Markup', () => {
+			expect(log`This is *bold* and ~strikethough~ and _underline_`)
+				.toBe(`This is ${CSI}1mbold${CSI}22m and ${CSI}9mstrikethough${CSI}29m and ${CSI}4munderline${CSI}24m`);
+		});
+
+		test('Custom Pattern Alias []', () => {
+			let pa = log.patternAliases;
+
+			log.options({
+				patternAliases: Object.assign({}, pa, { '(\\[[^\\]]+?\\])' : 'Green'})
+			});
+
+			expect(log`{Red command [-jxhd] arg}`)
+				.toBe(`${FG}${Red}command ${FG}${Gre}[-jxhd]${FG}${Red} arg${FG_RSET}`);
+
+			log.options({
+				patternAliases: pa,
+			});
+		});
+
+	});
+
 	describe('chalk test strings', () => {
 
 		test('fg test', () => {

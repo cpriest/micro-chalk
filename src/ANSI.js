@@ -115,8 +115,8 @@ class ANSI extends Parser {
 
 					output = output.replace(m[0], `{${desc} ${m[j]}}`);
 
-					// Backtrack to beginning of our match
-					r.lastIndex -= m[0].length;
+					r.lastIndex -= m[0].length; // Backtrack to beginning of our match
+					r.lastIndex += desc.length + 3;	// Move forward the description length + 3 for {, space and first character of match
 					break;	// for loop
 				}
 			}
