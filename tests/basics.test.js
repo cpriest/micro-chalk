@@ -43,6 +43,12 @@ describe('ANSI', () => {
 				.toBe(`${FG}${Whi}${BG}${Blu}Blue on White Background${FULL_RSET}`);
 
 		});
+
+		test('fg/bg test (cssColors)', () => {
+			expect(log`{#00F.#FFF Blue on White Background}`)
+				.toBe(`${FG24}0;0;255m${BG24}255;255;255mBlue on White Background${FULL_RSET}`);
+
+		});
 	});
 
 	describe('Nesting', () => {

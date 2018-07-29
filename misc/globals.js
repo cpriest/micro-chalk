@@ -8,7 +8,9 @@
 module.exports = (ESC) => {
 	const CSI       = `${ESC}[`;
 	const FG        = `${CSI}38;5;`;
+	const FG24      = `${CSI}38;2;`;
 	const BG        = `${CSI}48;5;`;
+	const BG24      = `${CSI}48;2;`;
 	const FG_RSET   = `${FG}15m`;
 	const BG_RSET   = `${BG}0m`;
 	const FULL_RSET = `${FG_RSET}${BG_RSET}`;
@@ -17,7 +19,9 @@ module.exports = (ESC) => {
 		ESC:       ESC,
 		CSI:       CSI,
 		FG:        FG,
+		FG24:      FG24,
 		BG:        BG,
+		BG24:      BG24,
 		bla:       '0m',
 		red:       '1m',
 		gre:       '2m',
@@ -40,7 +44,7 @@ module.exports = (ESC) => {
 	}));
 	for(let [key, value] of Constants) {
 		Object.defineProperty(global, key, {
-			value: value, writable: false, configurable: false, enumerable: true
+			value: value, writable: false, configurable: false, enumerable: true,
 		});
 	}
 };

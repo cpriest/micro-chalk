@@ -1,5 +1,6 @@
 'use strict';
 
+let _;	// General Purpose Variable
 let Parser = require('./Parser');
 
 const longForms = {
@@ -36,12 +37,16 @@ const chalkAliases = {
 	bgWhite:       '.white', bgWhiteBright: '.White',
 };
 
-const ESC = '\x1B' || 'Ɛ';
-const CSI = `${ESC}[`;
-const FGC = `38;5`;
-const FG  = `${CSI}${FGC};`;
-const BGC = `48;5`;
-const BG  = `${CSI}${BGC};`;
+const ESC   = '\x1B' || 'Ɛ',
+	  CSI   = `${ESC}[`,
+	  FGC   = `38;5`,
+	  FGC24 = `38;2`,
+	  FG    = `${CSI}${FGC};`,
+	  FG24  = `${CSI}${FGC24};`,
+	  BGC   = `48;5`,
+	  BGC24 = `48;2`,
+	  BG    = `${CSI}${BGC};`,
+	  BG24  = `${CSI}${BGC24};`;
 
 const SgrAttributeCodes = {
 	'bold':      [1, 22],	// Bold
@@ -67,11 +72,31 @@ const patternAliases = {
 };
 
 const AnsiCSI = {
-	'FG': CSI + FGC + ';',
-	'BG': CSI + BGC + ';',
+	'FG': FG,
+	'BG': BG,
+};
+
+const Ansi24CSI = {
+	'FG': FG24,
+	'BG': BG24,
 };
 
 const defaultResetCode = 'White.black';
+
+/**
+ * Converts a given css color hex code to its ISO-8613-6 24 bit code
+ *
+ * @param {string} css
+ *
+ * @return {string}
+ */
+function cssColorToAnsi24(css) {
+	if(css.length === 3)
+		css = css[0] + css[0] + css[1] + css[1] + css[2] + css[2];
+
+	return parseInt(css.substr(0, 2), 16) + ';' + parseInt(css.substr(2, 2), 16) + ';' + parseInt(css.substr(4, 2), 16);
+}
+
 
 class ANSI extends Parser {
 	constructor() {
@@ -160,7 +185,20 @@ class ANSI extends Parser {
 						if(next === '_')
 							throw `Extraneous color (${desc}) specified in ${desc}, only two colors may be declared per markup block.`;
 
-						result.types[next] = code;
+						result.types[next] = code !== undefined
+											 ? AnsiCSI[next] + code + 'm'
+											 : code;
+
+						return result;
+					} else if(SgrType === 'color24b') {
+						let next = nextColor(result);
+
+						if(next === '_')
+							throw `Extraneous color (${desc}) specified in ${desc}, only two colors may be declared per markup block.`;
+
+						result.types[next] = code !== undefined
+											 ? Ansi24CSI[next] + code + 'm'
+											 : code;
 
 						return result;
 					} else if(SgrType === 'attr') {
@@ -182,11 +220,10 @@ class ANSI extends Parser {
 				delete result.types[type];
 				continue;
 			}
-			result.types[type] = AnsiCSI[type] + code + 'm';
 			colorOpen += result.types[type];
 		}
 
-		result.open = colorOpen + result.open;
+		result.open  = colorOpen + result.open;
 		result.close = result.close + colorClose;
 
 		return result;
@@ -214,6 +251,9 @@ class ANSI extends Parser {
 
 		if(!isNaN(parseInt(desc)))
 			return { SgrType: 'color', code: parseInt(desc) };
+
+		if((_ = desc.match(/^#([a-f\d]{6}|[a-f\d]{3})$/i)) !== null)
+			return { SgrType: 'color24b', code: cssColorToAnsi24(_[1]) };
 
 		if(this.attrCodes[desc])
 			return { SgrType: 'attr', code: this.attrCodes[desc] };
