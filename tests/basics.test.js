@@ -229,6 +229,10 @@ describe('ANSI', () => {
 			});
 		});
 
+		test('Bold / Dim properly resets the color', () => {
+			expect(log`{Red Red *Bold* Red}`)
+				.toBe(`${FG}${Red}Red ${CSI}1mBold${CSI}22m${FG}${Red} Red${FG_RSET}`);
+		});
 	});
 
 	describe('chalk test strings', () => {

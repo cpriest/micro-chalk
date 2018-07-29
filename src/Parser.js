@@ -88,39 +88,41 @@ class Parser {
 	markup(input) {
 		let [output, entries] = this.extract(input);
 
-		/**
-		 * Recursive expansion of extracted string entries until no further extracted strings remain
-		 *
-		 * @param {string} input
-		 * @param {object} prevTypes
-		 *
-		 * @return {string}
-		 */
-		let expand = (input, prevTypes) => {
-			let r      = /\x1A(\d+)/g,
-				output = input,
-				m;
-
-			// noinspection JSValidateTypes
-			while((m = r.exec(input)) !== null) {
-				let entry                  = entries[parseInt(m[1])];
-				let { types, open, close } = this.xlate(entry[0]);
-
-				close += Object.keys(types)
-					.filter(x => x in prevTypes)
-					.reduce((close, x) => close + prevTypes[x], '');
-
-				output = output.replace(m[0],					// Replace match
-					expand(open + entry[1] + close,				// with re-processed string
-						Object.assign({}, prevTypes, types),	// Passing in our previous types overlayed with our current types
-					),
-				);
-			}
-			return output;
-		};
-
-		return expand(output, this.xlate(this.resetCode).types);
+		return this.expand(output, entries, this.xlate(this.resetCode).types);
 	}
+
+	/**
+	 * Recursive expansion of extracted string entries until no further extracted strings remain
+	 *
+	 * @param {string} input		The modified input from extract() and as recursed by expand
+	 * @param {object[]} entries	The indexed string entries found by the extract() function
+	 * @param {object} prevTypes	The previous enclosing types from the parent context
+	 *
+	 * @return {string}
+	 */
+	expand(input, entries, prevTypes) {
+		let r      = /\x1A(\d+)/g,
+			output = input,
+			m;
+
+		// noinspection JSValidateTypes
+		while((m = r.exec(input)) !== null) {
+			let entry                  = entries[parseInt(m[1])];
+			let { types, open, close } = this.xlate(entry[0]);
+
+			close += Object.keys(types)
+				.filter(x => x in prevTypes)
+				.reduce((close, x) => close + prevTypes[x], '');
+
+			output = output.replace(m[0],							// Replace match
+				this.expand(open + entry[1] + close,				// with re-processed string
+					entries, Object.assign({}, prevTypes, types),	// Passing in our previous types overlayed with our current types
+				),
+			);
+		}
+		return output;
+	};
+
 
 	/**
 	 * Extracts the smallest { } pair and stores it as an entry in an array, replacing the match with the entry index.
