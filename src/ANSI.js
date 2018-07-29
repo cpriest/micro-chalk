@@ -126,18 +126,19 @@ class ANSI extends Parser {
 	}
 
 	/**
-	 * Returns the opening/closing ansi codes for the given ${input} elements
+	 * Returns the opening/closing ansi codes for the given ${desc} elements
 	 *
-	 * @param {string} input    The descriptive replacements
+	 * @param {string} desc      The descriptive replacements
+	 * @param {object} prevTypes  The previous enclosing types from the parent context
 	 *
 	 * @return {object} Opening/Closing Ansi Codes
 	 */
-	xlate(input) {
-		while(this.aliases[input])
-			input = String(this.aliases[input]);
+	xlate(desc, prevTypes) {
+		while(this.aliases[desc])
+			desc = String(this.aliases[desc]);
 
-		if(chalkAliases[input])
-			input = chalkAliases[input];
+		if(chalkAliases[desc])
+			desc = chalkAliases[desc];
 
 		function nextColor(result) {
 			return ['FG', 'BG', '_'].find(
@@ -145,7 +146,10 @@ class ANSI extends Parser {
 			);
 		}
 
-		let result = input
+		let colorOpen  = '',
+			colorClose = '';
+
+		let result = desc
 			.split('.')
 			.reduce((result, desc) => {
 					let { SgrType, code } = this.resolve(desc);
@@ -154,7 +158,7 @@ class ANSI extends Parser {
 						let next = nextColor(result);
 
 						if(next === '_')
-							throw `Extraneous color (${desc}) specified in ${input}, only two colors may be declared per tag pair.`;
+							throw `Extraneous color (${desc}) specified in ${desc}, only two colors may be declared per markup block.`;
 
 						result.types[next] = code;
 
@@ -162,13 +166,17 @@ class ANSI extends Parser {
 					} else if(SgrType === 'attr') {
 						result.open += CSI + code[0] + 'm';
 						result.close += CSI + code[1] + 'm';
+
+						// For bold/dim, we also want to set the FG color upon close
+						if(code[1] == 22)
+							colorClose = prevTypes.FG;
+
 						return result;
 					}
 					throw `Unknown type (${SgrType}) in ANSI::xlate()`;
 				}, { types: {}, open: '', close: '' },
 			);
 
-		let colorOpen = '';
 		for(let [type, code] of Object.entries(result.types)) {
 			if(code === undefined) {
 				delete result.types[type];
@@ -179,6 +187,7 @@ class ANSI extends Parser {
 		}
 
 		result.open = colorOpen + result.open;
+		result.close = result.close + colorClose;
 
 		return result;
 	}

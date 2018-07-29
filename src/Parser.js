@@ -108,7 +108,7 @@ class Parser {
 		// noinspection JSValidateTypes
 		while((m = r.exec(input)) !== null) {
 			let entry                  = entries[parseInt(m[1])];
-			let { types, open, close } = this.xlate(entry[0]);
+			let { types, open, close } = this.xlate(entry[0], prevTypes);
 
 			close += Object.keys(types)
 				.filter(x => x in prevTypes)
@@ -149,11 +149,12 @@ class Parser {
 	/**
 	 * Returns the opening/closing ansi codes for the given ${input} elements
 	 *
-	 * @param {string} input    The descriptive replacements
+	 * @param {string} input      The descriptive replacements
+	 * @param {object} prevTypes  The previous enclosing types from the parent context
 	 *
 	 * @return {object} Opening/Closing Ansi Codes
 	 */
-	xlate(input) {
+	xlate(input, prevTypes) {
 		throw 'xlate() must be implemented by sub-class';
 	}
 
