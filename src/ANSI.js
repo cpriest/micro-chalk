@@ -49,14 +49,29 @@ const ESC   = '\x1B' || 'Ɛ',
 	  BG24  = `${CSI}${BGC24};`;
 
 const SgrAttributeCodes = {
-	'bold':      [1, 22],	// Bold
-	'dim':       [2, 22],	// Dim
-	'italic':    [3, 23],	// Italic
-	'underline': [4, 24],	// Underlined
-	'blink':     [5, 25],	// Blinking
-	'inverse':   [7, 27],	// Inverse
-	'hidden':    [8, 28],	// Hidden
-	'strike':    [9, 29],	// Strikethrough
+	'bold':          [1, 22],	// Bold
+	'bright':        [1, 22],	// Bold
+
+	'dim':           [2, 22],	// Dim
+
+	'italic':        [3, 23],	// Italic
+	'italicized':    [3, 23],	// Italic
+
+	'under':         [4, 24],	// Underlined
+	'underline':     [4, 24],	// Underlined
+	'underlined':    [4, 24],	// Underlined
+
+	'blink':         [5, 25],	// Blinking
+	'blinking':      [5, 25],	// Blinking
+
+	'inverse':       [7, 27],	// Inverse
+
+	'hidden':        [8, 28],	// Hidden
+	'hide':          [8, 28],	// Hidden
+
+	'strike':        [9, 29],	// Strikethrough
+	'strikethrough': [9, 29],	// Strikethrough
+	'strikeout':     [9, 29],	// Strikethrough
 };
 
 // The entire match is replaced with {value Match0}
