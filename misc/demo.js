@@ -17,6 +17,46 @@ ${left} ${title} ${right}
 
 console.log(FULL_RESET);
 
+br('Header');
+
+let lines = [
+	[4, ' ', 'Black:Black.White', 'Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan', 'White'],
+	[4, ' ', 'black:black.White', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'],
+	[],
+	[1, '  ', ' .Black ', ' .Red ', ' .Green :black.Green', ' .Yellow :black.Yellow', ' .Blue ', ' .Magenta :black.Magenta', ' .Cyan :black.Cyan', ' .White :black.White'],
+	[1, '  ', ' .black ', ' .red ', ' .green :.green', 	  ' .yellow :.yellow', 	    ' .blue ', ' .magenta :.magenta', 	   ' .cyan :.cyan', 	 ' .white :black.white'],
+	[],
+	[2, '  ', ' bold  ', 'strike  ', 'underline', '  dim :Black', ' italic ', 'blink', 'inverse', ' hide'],
+	[2, '  ', '\\*bold\\*:bold', '\\~strike\\~:strike', '\\_underline\\_:underline'],
+];
+
+let out;
+
+out = lines.map((cur) => {
+		let [indent, ...line] = cur.map((cur, index) => {
+			if(index === 0)
+				return cur;
+			let [text, desc] = cur.split(':');
+			desc = (desc || text).replace(/\s+/g, '');
+
+			if(text.trim() == '')
+				return text;
+
+			return `{${desc} ${text}}`;
+		});
+
+		return line.join(' '.repeat(indent));
+	}).join('\n');
+
+// console.log(out + '\n');
+str = log`${out}
+`;
+
+// console.log(str.replace(/\x1B/g, 'Ɛ'));
+console.log(str);
+
+// process.exit();
+
 /******************************************************************************/
 br('Quick Sample');
 

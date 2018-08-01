@@ -1,5 +1,7 @@
 # micro-chalk
-MicroChalk is a small library for coloring text with ansi codes in a form similar to chalk.
+MicroChalk is a simple library for coloring terminal output with ansi codes.
+
+![](res/img/HeaderOverview.png)
 
 #### Project Aims
 
@@ -12,6 +14,10 @@ Most existing ``` chalk `template tag` ``` strings should work out of the box, p
 
 ---
 ### Quick Example
+
+<table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+<td>
 
 ```js
 const log = require('micro-chalk');
@@ -26,7 +32,15 @@ let str = log`
 
 console.log(str);
 ```
+
+</td>
+<td valign="top">
+
 ![](res/img/QuickSample.png)
+
+</td>
+</tr>
+</table>
 
 ### Features
   * Simple Foreground/Background/Formatting
