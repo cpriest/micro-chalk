@@ -15,7 +15,7 @@ Most existing ``` chalk `template tag` ``` strings should work out of the box, p
 ---
 ### Quick Example
 
-<table border="0" cellspacing="0" cellpadding="0">
+<table style="border-width: 0px; border-color: transparent;"  border="0" cellspacing="0" cellpadding="0">
     <tr>
 <td>
 
