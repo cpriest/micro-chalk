@@ -5,8 +5,8 @@ MicroChalk is a simple library for coloring terminal output with ansi codes.
 
 #### Project Aims
 
-* Be smaller & more flexible than other libraries with no dependencies
-* Slightly more opinionated.
+* Be smaller, less verbose and more flexible than other libraries with no dependencies
+* Does not modify natives
 
 Most existing ``` chalk `template tag` ``` strings should work out of the box, please report if you find a discrepancy.
 
@@ -27,14 +27,14 @@ console.log(str);
 ![](res/img/QuickSample.png)
 
 ### Features
-  * Simple Foreground/Background/Formatting
-  * Nested Styles
-  * Nested [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals)
-  * Custom Aliases
-  * Custom pre/post Hooks
-  * Pattern Aliasing (\***bold**\*, _\_italic\__ or `add your own`)
-  * Direct use of `256-color` codes and 24bit color via `#F00/#10FF10`
-  * Base `Parser` is extensible for other markup uses
+  * [Simple Foreground/Background/Formatting](#foregroundbackgroundformatting)
+  * [Nested Styles](#nested-styles)
+  * [Nested Template Literals](#nested-template-literals)
+  * [Custom Aliases](#custom-aliasing)
+  * [Custom pre/post Hooks](#prepost-hooks)
+  * [Pattern Aliasing](#additional-features) (\***bold**\*, _\_italic\__ or `add your own`)
+  * [Direct use of `256-color` codes ](#additional-features) and 24bit color via `#F00/#10FF10`
+  * Base [`Parser`](https://github.com/cpriest/micro-chalk/blob/master/src/Parser.js) is extensible for other markup uses, also see [`ANSI`](https://github.com/cpriest/micro-chalk/blob/master/src/ANSI.js)
 
 ### Examples
 
@@ -81,7 +81,7 @@ console.log(str);
 
 ![](res/img/FormattingSample.png)
 
-#### pre/post options
+#### pre/post Hooks
 
 ```js
 const log = require('micro-chalk')
@@ -121,7 +121,7 @@ log`
 ![](res/img/NestingStyles.png)
 
 #### Nested Template Literals
-You can nest template literals as deep as you like, each literal will be evaluated and the results may contain further marked sections.  Some sophisticated and pedantic examples are shown below.
+You can nest [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals) as deep as you like, each literal will be evaluated and the results may contain further marked sections.  Some sophisticated and pedantic examples are shown below.
 
 ```js
 const log = require('micro-chalk')
@@ -144,7 +144,7 @@ Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
 
 ![](res/img/NestedTemplateLiterals.png)
 
-#### Aliasing
+#### Custom Aliasing
 Aliasing lets you define aliases for common usage scenarios or define names for those 256 colors at your fingertips.
 
 ```js
