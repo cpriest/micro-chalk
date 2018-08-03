@@ -1,7 +1,7 @@
 'use strict';
 
 let _;	// General Purpose Variable
-let Parser = require('./Parser');
+let {Parser} = require('./Parser');
 
 const longForms = {
 	'black':   0, 'Black': 8,
@@ -111,7 +111,6 @@ function cssColorToAnsi24(css) {
 
 	return parseInt(css.substr(0, 2), 16) + ';' + parseInt(css.substr(2, 2), 16) + ';' + parseInt(css.substr(4, 2), 16);
 }
-
 
 class ANSI extends Parser {
 	constructor() {
@@ -300,6 +299,13 @@ class ANSI extends Parser {
 		}
 		return super.options(opts);
 	}
+
+	/**
+	 * Returns <input> with escapes translated to Ɛ to reveal the ansi codes
+	 * @param {string} input
+	 * @return {string}
+	 */
+	reveal(input) { return input.replace(/\x1B/g, 'Ɛ');	}
 }
 
 module.exports = new ANSI();

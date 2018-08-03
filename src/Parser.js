@@ -88,7 +88,7 @@ class Parser {
 	markup(input) {
 		let [output, entries] = this.extract(input);
 
-		return this.expand(output, entries, this.xlate(this.resetCode).types);
+		return this.expand(output, entries, this.xlate(this.resetCode, []).types);
 	}
 
 	/**
@@ -171,4 +171,6 @@ class Parser {
 	}
 }
 
-module.exports = Parser;
+module.exports = {
+	Parser
+};

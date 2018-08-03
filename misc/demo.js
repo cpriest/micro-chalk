@@ -1,4 +1,5 @@
 let log = require('../'), str;
+require('../misc/debug.js');
 
 const ESC = '\x1B';
 const CSI = `${ESC}[`;
@@ -6,8 +7,8 @@ const CSI = `${ESC}[`;
 const FULL_RESET = `${ESC}c`;
 
 function br(title) {
-	let left = '-'.repeat((60 - title.length)/2),
-		right = '-'.repeat((60 - title.length) / 2);
+	let left = '-'.repeat(Math.floor((64 - title.length) / 2)),
+		right = '-'.repeat(Math.ceil((64 - title.length) / 2));
 	console.log(`---
 	
 ${left} ${title} ${right}
@@ -61,14 +62,11 @@ console.log(str);
 br('Quick Sample');
 
 str = log`
-{red The color red is nice.}
-{green green is nice too!}
-
-{Red Is this a better red?}
-{Green Is this a better green?}
+{red There are *eight base colors* which come in _two shades_.}
+{Green Green is bright, while {green green is dimmer than} {Green Green}}
 `;
 
-console.log(str);
+console.log(str.replace(/^/gm, '  '));
 
 
 /******************************************************************************/
@@ -80,8 +78,8 @@ str = log`
 {Black.White Black text on White background.}
         {Black.white Black text on white background.}
 
-    {Yellow Note the case difference of white vs White, all colors are this way.}
-        {white Lowercase is dim} and {White Title case is bright.}
+    {Yellow Note use of white vs White, all base colors work this way.}
+        {White Title case is bright} and {white lowercase is dim.} 
             red -> Red, blue -> Blue, etc.
         
         chalk          micro-chalk
@@ -98,13 +96,13 @@ str = log`
           {bgRedBright bgRedBright}    {.Red .Red}
 
 
-{White.Red Sample of White on Red.}
-        {White.red Sample of White on red.}
-{White.Blue Sample of White on Blue.}
-        {White.blue Sample of White on blue.}
+{.Red Sample of White on Red.}
+        {.red Sample of White on red.}
+{.Blue Sample of White on Blue.}
+        {.blue Sample of White on blue.}
 `;
 
-console.log(str);
+console.log(str.replace(/^/gm, '  '));
 
 
 /******************************************************************************/
@@ -118,28 +116,34 @@ log = require('../')
 		},
 		post: (output) => {
 			// Do something with the output, such as sending it to console.log()
-			console.log(output);
+			console.log(output.replace(/^/gm, '  '));
 			return output;
 		}
 	});
 
-log`{Magenta There are many colors available}`;
+log`
+{White You can use the {red post hook} to cause the 
+result to go *straight to the console.*}
+`;
 
 
 /******************************************************************************/
 br('Nesting Styles Sample');
 
 log = require('../')
-	.options({ post: (output) => {console.log(output);return output;} });
+	.options({ post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; } });
 
-log`{Magenta There are {Red many colors} {Blue available} for use, {Yellow 256 to be} exact.}`;
+log`
+{Magenta Most terminals {red support {green the basic} 16 colors},  
+{cyan many terminals} {Yellow support 256 colors} {Blue and 24-bit color.}}
+`;
 
 
 /******************************************************************************/
 br('NestedTemplateLiterals Sample');
 
 log = require('../')
-	.options({ post: (output) => {console.log(output);return output;} });
+	.options({ post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; } });
 
 function check(value) {
 	if(value >= .98)
@@ -168,12 +172,16 @@ log = require('../')
 			'Blue2':  27,
 			'purple': 105,
 		},
-		post: (output) => {
-			console.log(output);
-			return output;
-		}
+		post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; }
 	});
 
+/**
+ * Generates an infinite iterator on {through}
+ *
+ * @param {Iterable} through
+ *
+ * @return {IterableIterator<*>}
+ */
 function* rotate(through) {
 	while(true)
 		yield* through;
@@ -192,7 +200,9 @@ function rainbow(input) {
 }
 
 // log`${rainbow('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM')}`;
-log`${rainbow("It's a cornucopia of skittles, taste the rainbow!")}`;
+log`
+${rainbow("It's a cornucopia of skittles, taste the rainbow!")}
+`;
 // log`${rainbow('MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM')}`;
 
 
@@ -217,10 +227,7 @@ log = require('../')
 			'#':  'White.blue',       // White on blue
 			'=':  'White.black',      // White on black
 		},
-		post:    (output) => {
-			console.log(output);
-			return output;
-		}
+		post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; }
 	});
 
 log`
@@ -228,13 +235,29 @@ log`
 
 {^^ ERROR:{=  There is a {^^  major problem } that needs your attention!}}
 
-{#
-                                                   
-  White on blue used to be a common color scheme.  
-                                                   
-}
+{#                                                    }
+{#   White on blue used to be a common color scheme.  }  
+{#                                                    }
 
 {pink Some people prefer pink}, {RED to red}, {BLU others like blue}.
 
 {grey39 The world {black.White is full} of color, {grey49 why use just grey?}}
+`;
+
+br('Additional Features');
+
+log = require('../')
+	.options({
+		patternAliases: Object.assign({}, log.patternAliases, {
+			'(\\[[^\\]]+\\])' : 'White.blue'
+		}),
+		post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; }
+	});
+
+log`
+- {#FFF.#0000FF Use CSS Hex Codes Directly}
+
+- {129.251  Directly use ANSI 256 color codes}
+
+- {Red *Convenient* _pattern aliasing_ lets you do [nearly anything].}
 `;
