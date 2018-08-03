@@ -5,9 +5,7 @@ MicroChalk is a simple library for coloring terminal output with ansi codes.
 
 #### Project Aims
 
-* To be smaller
-* More flexible
-* With no dependencies
+* Be smaller & more flexible than other libraries with no dependencies
 * Slightly more opinionated.
 
 Most existing ``` chalk `template tag` ``` strings should work out of the box, please report if you find a discrepancy.
@@ -15,44 +13,35 @@ Most existing ``` chalk `template tag` ``` strings should work out of the box, p
 ---
 ### Quick Example
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-    <tr>
-<td>
-
 ```js
 const log = require('micro-chalk');
 
 let str = log`
-{red The color red is nice.}
-{green green is nice too!}
-
-{Red Is this a better red?}
-{Green Is this a better green?}
+{red There are *eight base colors* which come in _two shades_.}
+{Green Green is bright, while {green green is dimmer than} {Green Green}}
 `;
 
 console.log(str);
 ```
 
-</td>
-<td valign="top">
-
 ![](res/img/QuickSample.png)
-
-</td>
-</tr>
-</table>
 
 ### Features
   * Simple Foreground/Background/Formatting
-  * Allows Nested Styles
-  * Allows Nested [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals)
-  * Aliases / Nested Aliases
-  * pre/post Hooks
+  * Nested Styles
+  * Nested [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals)
+  * Custom Aliases
+  * Custom pre/post Hooks
+  * Pattern Aliasing (\***bold**\*, _\_italic\__ or `add your own`)
+  * Direct use of `256-color` codes and 24bit color via `#F00/#10FF10`
+  * Base `Parser` is extensible for other markup uses
 
 ### Examples
 
 #### Foreground/Background/Formatting
-Unlike chalk, the first color to be referenced is assumed to be the foreground color while the second is assumed to be the background color.  This lets us have the same color names for little extra effort.
+With micro-chalk, the first color used is taken as the foreground color while the second is the background color.  This lets us have the same color names for little extra effort.
+
+In cases where only the background color is needed, simply use `.Red` as an example.
 
 ```js
 const log = require('micro-chalk');
@@ -63,8 +52,8 @@ let str = log`
 {Black.White Black text on White background.}
         {Black.white Black text on white background.}
 
-    {Yellow Note the case difference of white vs White, all colors are this way.}
-        {white Lowercase is dim} and {White Title case is bright.}
+    {Yellow Note use of white vs White, all base colors work this way.}
+        {White Title case is bright} and {white lowercase is dim.} 
             red -> Red, blue -> Blue, etc.
         
         chalk          micro-chalk
@@ -81,10 +70,10 @@ let str = log`
           {bgRedBright bgRedBright}    {.Red .Red}
 
 
-{White.Red Sample of White on Red.}
-        {White.red Sample of White on red.}
-{White.Blue Sample of White on Blue.}
-        {White.blue Sample of White on blue.}
+{.Red Sample of White on Red.}
+        {.red Sample of White on red.}
+{.Blue Sample of White on Blue.}
+        {.blue Sample of White on blue.}
 `;
 
 console.log(str);
@@ -108,7 +97,10 @@ const log = require('micro-chalk')
         }
     } );
 
-log`{Magenta There are many colors available}`;
+log`
+{White You can use the {red post hook} to cause the 
+result to go *straight to the console.*}
+`;
 ```
 
 ![](res/img/PostSample.png)
@@ -120,7 +112,10 @@ Nesting styles lets you encapsulate styles within one another; when an inner sec
 const log = require('micro-chalk')
     .options( { post: (output) => { console.log(output); return output; } } );
 
-log`{Magenta There are {Red many colors} {Blue available} for use, {Yellow 256 to be} exact.}`;
+log`
+{Magenta Most terminals {red support {green the basic} 16 colors},  
+{cyan many terminals} {Yellow support 256 colors} {Blue and 24-bit color.}}
+`;
 ```
 
 ![](res/img/NestingStyles.png)
@@ -191,6 +186,27 @@ log`
 `;
 ```
 ![](res/img/AliasingSample.png)
+
+#### Additional Features
+
+```js
+const log = require('micro-chalk')
+	.options({
+		patternAliases: Object.assign({}, log.patternAliases, {
+			'(\\[[^\\]]+\\])' : 'White.blue'
+		}),
+		post:    (output) => { console.log(output); return output; }
+	});
+
+log`
+- {#FFF.#0000FF Use CSS Hex Codes Directly}
+
+- {124.251  Directly use ANSI 256 color codes}
+
+- {Red *Convenient* _pattern aliasing_ lets you do [nearly anything].}
+`;
+```
+![](res/img/AdditionalFeatures.png)
 
 ### Notes
   * micro-chalk assumes your output is ansi 256 color compliant
