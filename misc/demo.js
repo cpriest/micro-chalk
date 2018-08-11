@@ -1,4 +1,4 @@
-import { ANSI } from '../src/ANSI.js';
+import ANSI from '../src/ANSI.js';
 import './debug.js';
 
 let log = new ANSI();
