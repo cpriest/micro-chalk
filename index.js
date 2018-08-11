@@ -2,4 +2,6 @@
 
 // require('./src/debug.js');
 
-module.exports = require('./src/ANSI.js');
+import { ANSI } from "src/ANSI.js";
+
+export default ANSI;

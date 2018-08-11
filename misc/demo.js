@@ -1,5 +1,7 @@
-let log = require('../'), str;
-require('../misc/debug.js');
+import { ANSI } from '../src/ANSI.js';
+import './debug.js';
+
+let log = new ANSI();
 
 const ESC = '\x1B';
 const CSI = `${ESC}[`;
@@ -50,7 +52,7 @@ out = lines.map((cur) => {
 	}).join('\n');
 
 // console.log(out + '\n');
-str = log`${out}`;
+let str = log`${out}`;
 
 // console.log(str.replace(/\x1B/g, 'Ɛ'));
 console.log(str);
@@ -107,7 +109,7 @@ console.log(str.replace(/^/gm, '  '));
 /******************************************************************************/
 br('Post Sample');
 
-log = require('../')
+log = new ANSI()
 	.options({
 		pre:  (input) => {
 			// Do something with pre-processed input, perhaps translation, loading strings, whatnot.
@@ -129,7 +131,7 @@ result to go *straight to the console.*}
 /******************************************************************************/
 br('Nesting Styles Sample');
 
-log = require('../')
+log = new ANSI()
 	.options({ post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; } });
 
 log`
@@ -141,7 +143,7 @@ log`
 /******************************************************************************/
 br('NestedTemplateLiterals Sample');
 
-log = require('../')
+log = new ANSI()
 	.options({ post: (output) => { console.log(output.replace(/^/gm, '  ')); return output; } });
 
 function check(value) {
@@ -162,7 +164,7 @@ Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
 /******************************************************************************/
 br('Rainbow Sample');
 
-log = require('../')
+log = new ANSI()
 	.options({
 		aliases: {
 			'Red2':   196,
@@ -208,7 +210,7 @@ ${rainbow("It's a cornucopia of skittles, taste the rainbow!")}
 /******************************************************************************/
 br('Aliasing Sample');
 
-log = require('../')
+log = new ANSI()
 	.options({
 		aliases: {
 			// Regular alias to colors 207, 239, 249
@@ -245,7 +247,7 @@ log`
 
 br('Additional Features');
 
-log = require('../')
+log = new ANSI()
 	.options({
 		patternAliases: Object.assign({}, log.patternAliases, {
 			'(\\[[^\\]]+\\])' : 'White.blue'

@@ -32,7 +32,8 @@
 	"repository": "github:cpriest/micro-chalk",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest"
+		"test": "jest",
+		"demo": "node --experimental-modules --loader ./misc/node-loader.mjs misc/demo.js"
 	},
 	"devDependencies": {
 		"@types/jest": "^23.3.1"

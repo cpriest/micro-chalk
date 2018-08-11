@@ -4,12 +4,10 @@
  *        Do not do this in production, bad juju.
  */
 
-let util = require('util');
+import * as util from 'util';
 
 global.inspect = function inspect(...x) {
-	console.log(
-		require('util')
-			.inspect(x.length > 1 ? x : x[0]) + '\r\n');
+	console.log(util.inspect(x.length > 1 ? x : x[0]) + '\r\n');
 };
 global.dl = console.log;
 
