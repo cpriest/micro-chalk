@@ -1,7 +1,7 @@
 'use strict';
 
 let _;	// General Purpose Variable
-import Parser from "./Parser.js";
+import { Parser } from "./Parser.js";
 
 const longForms = {
 	'black':   0, 'Black': 8,
@@ -112,7 +112,7 @@ function cssColorToAnsi24(css) {
 	return parseInt(css.substr(0, 2), 16) + ';' + parseInt(css.substr(2, 2), 16) + ';' + parseInt(css.substr(4, 2), 16);
 }
 
-export default class ANSI extends Parser {
+export class ANSI extends Parser {
 	constructor() {
 		super();
 

@@ -27,7 +27,7 @@ function unmask(input) {
 	});
 }
 
-export default class Parser {
+export class Parser {
 	constructor() {
 		this.resetCode = '';
 	}
