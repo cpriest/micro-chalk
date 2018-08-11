@@ -14,4 +14,4 @@ global.inspect = function inspect(...x) {
 global.dl = console.log;
 
 
-global.dl = global.inspect = function() {};
+// global.dl = global.inspect = function() {};

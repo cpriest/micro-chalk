@@ -1,0 +1,15 @@
+{
+  "name": "micro-chalk-docs",
+  "version": "1.0.0",
+  "description": "Documentation for micro-chalk",
+  "main": "index.js",
+  "scripts": {
+    "serve": "gitbook serve",
+    "build": "gitbook build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "xterm": "^3.5.1"
+  }
+}

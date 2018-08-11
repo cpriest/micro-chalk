@@ -9,3 +9,5 @@ package-lock.json
 *.tgz
 Notepad.md
 @types/JetBrains.d.ts
+local/
+gitbook/

@@ -1,7 +1,6 @@
-# micro-chalk
-MicroChalk is a simple library for coloring terminal output with ansi codes.
+# Introduction
 
-![](res/img/HeaderOverview.png)
+![HeaderOverview.png](res/img/HeaderOverview.png)
 
 #### Project Aims
 
@@ -10,35 +9,9 @@ MicroChalk is a simple library for coloring terminal output with ansi codes.
 
 Most existing ``` chalk `template tag` ``` strings should work out of the box, please report if you find a discrepancy.
 
----
-### Quick Example
+# Features
 
-```js
-const log = require('micro-chalk');
-
-let str = log`
-{red There are *eight base colors* which come in _two shades_.}
-{Green Green is bright, while {green green is dimmer than} {Green Green}}
-`;
-
-console.log(str);
-```
-
-![](res/img/QuickSample.png)
-
-### Features
-  * [Simple Foreground/Background/Formatting](#foregroundbackgroundformatting)
-  * [Nested Styles](#nested-styles)
-  * [Nested Template Literals](#nested-template-literals)
-  * [Custom Aliases](#custom-aliasing)
-  * [Custom pre/post Hooks](#prepost-hooks)
-  * [Pattern Aliasing](#additional-features) (\***bold**\*, _\_italic\__ or `add your own`)
-  * [Direct use of `256-color` codes ](#additional-features) and 24bit color via `#F00/#10FF10`
-  * Base [`Parser`](https://github.com/cpriest/micro-chalk/blob/master/src/Parser.js) is extensible for other markup uses, also see [`ANSI`](https://github.com/cpriest/micro-chalk/blob/master/src/ANSI.js)
-
-### Examples
-
-#### Foreground/Background/Formatting
+#### Simple Formatting
 With micro-chalk, the first color used is taken as the foreground color while the second is the background color.  This lets us have the same color names for little extra effort.
 
 In cases where only the background color is needed, simply use `.Red` as an example.
@@ -79,7 +52,7 @@ let str = log`
 console.log(str);
 ```
 
-![](res/img/FormattingSample.png)
+![](../res/img/FormattingSample.png)
 
 #### pre/post Hooks
 
@@ -103,7 +76,10 @@ result to go *straight to the console.*}
 `;
 ```
 
-![](res/img/PostSample.png)
+
+![](../res/img/PostSample.png)
+
+<script async src="//jsfiddle.net/cpriest/mj9u0fkz/embed/js,result/dark/"></script>
 
 #### Nested Styles
 Nesting styles lets you encapsulate styles within one another; when an inner section closes, the fg/bg color states are restored to the containing block.
@@ -118,7 +94,7 @@ log`
 `;
 ```
 
-![](res/img/NestingStyles.png)
+![](../res/img/NestingStyles.png)
 
 #### Nested Template Literals
 You can nest [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals) as deep as you like, each literal will be evaluated and the results may contain further marked sections.  Some sophisticated and pedantic examples are shown below.
@@ -142,7 +118,7 @@ Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
 `;
 ```
 
-![](res/img/NestedTemplateLiterals.png)
+![](../res/img/NestedTemplateLiterals.png)
 
 #### Custom Aliasing
 Aliasing lets you define aliases for common usage scenarios or define names for those 256 colors at your fingertips.
@@ -185,9 +161,14 @@ log`
 {grey39 The world {black.White is full} of color, {grey49 why use just grey?}}
 `;
 ```
-![](res/img/AliasingSample.png)
+![](../res/img/AliasingSample.png)
 
 #### Additional Features
+
+  * **Pattern Aliasing** lets you specify a regex pattern to translate (surround with) a `markup block`.
+  * Use **ANSI 256-color** codes directly or alias them as [shown earlier](#custom-aliasing).
+  * Use **24-bit color** by specifying RGB hex codes (#10FF10).
+
 
 ```js
 const log = require('micro-chalk')
@@ -206,7 +187,7 @@ log`
 - {Red *Convenient* _pattern aliasing_ lets you do [nearly anything].}
 `;
 ```
-![](res/img/AdditionalFeatures.png)
+![](../res/img/AdditionalFeatures.png)
 
 ### Notes
   * micro-chalk assumes your output is ansi 256 color compliant
