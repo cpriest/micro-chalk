@@ -1,0 +1,553 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Introduction · micro-chalk Documentation</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Clint Priest">
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="./" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Documentation</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./#introduction">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./#project-aims">
+            
+                    
+                    Project Aims
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Features</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="./">
+            
+                <a href="./#simple-formatting">
+            
+                    
+                    Simple Formatting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="./">
+            
+                <a href="./#nested-styles">
+            
+                    
+                    Nested Styles
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="./">
+            
+                <a href="./#nested-template-literals">
+            
+                    
+                    Nested Template Literals
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="./">
+            
+                <a href="./#custom-aliasing">
+            
+                    
+                    Custom Aliases
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="./">
+            
+                <a href="./#prepost-hooks">
+            
+                    
+                    Custom pre/post Hooks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="./">
+            
+                <a href="./#additional-features">
+            
+                    
+                    Pattern Aliasing
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="./">
+            
+                <a href="./#additional-features">
+            
+                    
+                    256-color codes 
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="./">
+            
+                <a href="./#additional-features">
+            
+                    
+                    24-bit color
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="./">
+            
+                <a href="./#notes">
+            
+                    
+                    Other Notes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Playground</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="pg/README.md">
+            
+                <span>
+            
+                    
+                    Playground
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Introduction</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="introduction">Introduction</h1>
+<p><img src="res/img/HeaderOverview.png" alt="HeaderOverview.png"></p>
+<h4 id="project-aims">Project Aims</h4>
+<ul>
+<li>Be smaller, less verbose and more flexible than other libraries with no dependencies</li>
+<li>Does not modify natives</li>
+</ul>
+<p>Most existing <code>chalk `template tag` </code> strings should work out of the box, please report if you find a discrepancy.</p>
+<h1 id="features">Features</h1>
+<h4 id="simple-formatting">Simple Formatting</h4>
+<p>With micro-chalk, the first color used is taken as the foreground color while the second is the background color.  This lets us have the same color names for little extra effort.</p>
+<p>In cases where only the background color is needed, simply use <code>.Red</code> as an example.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> log = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;micro-chalk&apos;</span>);
+
+<span class="hljs-keyword">let</span> str = log<span class="hljs-string">`
+{black.White black text on White background.}
+        {black.white black text on white background.}
+{Black.White Black text on White background.}
+        {Black.white Black text on white background.}
+
+    {Yellow Note use of white vs White, all base colors work this way.}
+        {White Title case is bright} and {white lowercase is dim.} 
+            red -&gt; Red, blue -&gt; Blue, etc.
+
+        chalk          micro-chalk
+          {red red}            {red red}
+          {redBright redBright}      {Red Red}
+
+          {green green}          {green green}
+          {greenBright greenBright}    {Green Green}
+
+          {bgBlue bgBlue}         {.blue .blue}
+          {bgBlueBright bgBlueBright}   {.Blue .Blue}
+
+          {bgRed bgRed}          {.red .red}
+          {bgRedBright bgRedBright}    {.Red .Red}
+
+
+{.Red Sample of White on Red.}
+        {.red Sample of White on red.}
+{.Blue Sample of White on Blue.}
+        {.blue Sample of White on blue.}
+`</span>;
+
+<span class="hljs-built_in">console</span>.log(str);
+</code></pre>
+<p><img src="../res/img/FormattingSample.png" alt=""></p>
+<h4 id="prepost-hooks">pre/post Hooks</h4>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> log = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;micro-chalk&apos;</span>)
+    .options( {
+        pre: (input) =&gt; {
+            <span class="hljs-comment">// Do something with pre-processed input, perhaps translation, loading strings, whatnot.</span>
+            <span class="hljs-keyword">return</span> input;
+        },
+        post: (output) =&gt; {
+            <span class="hljs-comment">// Do something with the output, such as sending it to console.log()</span>
+            <span class="hljs-built_in">console</span>.log(output);
+            <span class="hljs-keyword">return</span> output;
+        }
+    } );
+
+log<span class="hljs-string">`
+{White You can use the {red post hook} to cause the 
+result to go *straight to the console.*}
+`</span>;
+</code></pre>
+<p><img src="../res/img/PostSample.png" alt=""></p>
+<script async src="//jsfiddle.net/cpriest/mj9u0fkz/embed/js,result/dark/"></script>
+
+<h4 id="nested-styles">Nested Styles</h4>
+<p>Nesting styles lets you encapsulate styles within one another; when an inner section closes, the fg/bg color states are restored to the containing block.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> log = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;micro-chalk&apos;</span>)
+    .options( { post: (output) =&gt; { <span class="hljs-built_in">console</span>.log(output); <span class="hljs-keyword">return</span> output; } } );
+
+log<span class="hljs-string">`
+{Magenta Most terminals {red support {green the basic} 16 colors},  
+{cyan many terminals} {Yellow support 256 colors} {Blue and 24-bit color.}}
+`</span>;
+</code></pre>
+<p><img src="../res/img/NestingStyles.png" alt=""></p>
+<h4 id="nested-template-literals">Nested Template Literals</h4>
+<p>You can nest <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals" target="_blank">Template Literals</a> as deep as you like, each literal will be evaluated and the results may contain further marked sections.  Some sophisticated and pedantic examples are shown below.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> log = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;micro-chalk&apos;</span>)
+    .options( { post: (output) =&gt; { <span class="hljs-built_in">console</span>.log(output); <span class="hljs-keyword">return</span> output; } } );
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">check</span>(<span class="hljs-params">value</span>) </span>{
+    <span class="hljs-keyword">if</span>(value &gt;= <span class="hljs-number">.98</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`{Green <span class="hljs-subst">${value * 100}</span>%}`</span>;
+    <span class="hljs-keyword">if</span>(value &gt;= <span class="hljs-number">.70</span>)
+        <span class="hljs-keyword">return</span> <span class="hljs-string">`{black.Yellow <span class="hljs-subst">${value * 100}</span>%}`</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`{White.Red <span class="hljs-subst">${value * 100}</span>%}`</span>;
+}
+
+log<span class="hljs-string">`
+   Battery: <span class="hljs-subst">${check(.99)}</span>
+  CPU Load: <span class="hljs-subst">${check(.78)}</span>   <span class="hljs-subst">${&apos;{Yellow Warning}</span>&apos;}
+Disk Space: <span class="hljs-subst">${check(.31)}</span>   <span class="hljs-subst">${&apos;{Red Danger {White.Red  Very Low }</span> Disk Space}&apos;}
+`</span>;
+</code></pre>
+<p><img src="../res/img/NestedTemplateLiterals.png" alt=""></p>
+<h4 id="custom-aliasing">Custom Aliasing</h4>
+<p>Aliasing lets you define aliases for common usage scenarios or define names for those 256 colors at your fingertips.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> log = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;micro-chalk&apos;</span>)
+    .options( {
+        aliases: {
+            <span class="hljs-comment">// Regular alias to colors 207, 239, 249</span>
+            pink:    <span class="hljs-number">207</span>,
+            grey39:  <span class="hljs-number">239</span>,
+            grey49:  <span class="hljs-number">249</span>,
+
+            <span class="hljs-comment">// Alias of other aliases</span>
+            RED:    <span class="hljs-string">&apos;Red&apos;</span>,
+            BLU:    <span class="hljs-string">&apos;Blue&apos;</span>,
+
+            <span class="hljs-comment">// Full Alias</span>
+            <span class="hljs-string">&apos;^&apos;</span>:    <span class="hljs-string">&apos;black.Yellow&apos;</span>,     <span class="hljs-comment">// Black on Yellow</span>
+            <span class="hljs-string">&apos;^^&apos;</span>:   <span class="hljs-string">&apos;White.Red&apos;</span>,        <span class="hljs-comment">// White on Red</span>
+            <span class="hljs-string">&apos;#&apos;</span>:    <span class="hljs-string">&apos;White.blue&apos;</span>,       <span class="hljs-comment">// White on blue</span>
+            <span class="hljs-string">&apos;=&apos;</span>:    <span class="hljs-string">&apos;White.black&apos;</span>,      <span class="hljs-comment">// White on black</span>
+        },
+        post: (output) =&gt; { <span class="hljs-built_in">console</span>.log(output); <span class="hljs-keyword">return</span> output; }
+    } );
+
+log<span class="hljs-string">`
+{^ WARNING:{=  There is a {yellow minor problem} that needs your attention.}}
+
+{^^ ERROR:{=  There is a {^^  major problem } that needs your attention!}}
+
+{#
+
+  White on blue used to be a common color scheme.
+
+}
+
+{pink Some people prefer pink}, {RED to red}, {BLU others like blue}.
+
+{grey39 The world {black.White is full} of color, {grey49 why use just grey?}}
+`</span>;
+</code></pre>
+<p><img src="../res/img/AliasingSample.png" alt=""></p>
+<h4 id="additional-features">Additional Features</h4>
+<ul>
+<li><strong>Pattern Aliasing</strong> lets you specify a regex pattern to translate (surround with) a <code>markup block</code>.</li>
+<li>Use <strong>ANSI 256-color</strong> codes directly or alias them as <a href="#custom-aliasing">shown earlier</a>.</li>
+<li>Use <strong>24-bit color</strong> by specifying RGB hex codes (#10FF10).</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> log = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;micro-chalk&apos;</span>)
+    .options({
+        patternAliases: <span class="hljs-built_in">Object</span>.assign({}, log.patternAliases, {
+            <span class="hljs-string">&apos;(\\[[^\\]]+\\])&apos;</span> : <span class="hljs-string">&apos;White.blue&apos;</span>
+        }),
+        post:    (output) =&gt; { <span class="hljs-built_in">console</span>.log(output); <span class="hljs-keyword">return</span> output; }
+    });
+
+log<span class="hljs-string">`
+- {#FFF.#0000FF Use CSS Hex Codes Directly}
+
+- {124.251  Directly use ANSI 256 color codes}
+
+- {Red *Convenient* _pattern aliasing_ lets you do [nearly anything].}
+`</span>;
+</code></pre>
+<p><img src="../res/img/AdditionalFeatures.png" alt=""></p>
+<h3 id="notes">Notes</h3>
+<ul>
+<li>micro-chalk assumes your output is ansi 256 color compliant</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="./#project-aims" class="navigation navigation-next navigation-unique" aria-label="Next page: Project Aims">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Introduction","level":"1.1","depth":1,"next":{"title":"Project Aims","level":"1.2","depth":1,"anchor":"#project-aims","path":"README.md","ref":"README.md#project-aims","articles":[]},"dir":"ltr"},"config":{"plugins":["livereload"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Clint Priest","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"micro-chalk Documentation","language":"en","gitbook":"*","description":"Documentation and playground for micro-chalk"},"file":{"path":"README.md","mtime":"2018-08-11T10:16:44.049Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-08-11T10:26:19.308Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
