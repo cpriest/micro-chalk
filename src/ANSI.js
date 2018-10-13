@@ -49,8 +49,8 @@ const ESC   = '\x1B' || 'Ɛ',
 	  BG24  = `${CSI}${BGC24};`;
 
 const SgrAttributeCodes = {
-	'bold':          [1, 22],	// Bold
-	'bright':        [1, 22],	// Bold
+	'bold':          [1, 21],	// Bold
+	'bright':        [1, 21],	// Bold
 
 	'dim':           [2, 22],	// Dim
 
