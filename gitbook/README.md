@@ -1,5 +1,29 @@
 # Introduction
 
+<script async src="//jsfiddle.net/cpriest/mj9u0fkz/embed/js,result/dark/"></script>
+
+{ % jsfiddle tabs="results,js", height="600" % }
+```js
+const log = require('micro-chalk')
+    .options( { post: (output) => { console.log(output); return output; } } );
+
+function check(value) {
+    if(value >= .98)
+        return `{Green ${value * 100}%}`;
+    if(value >= .70)
+        return `{black.Yellow ${value * 100}%}`;
+    return `{White.Red ${value * 100}%}`;
+}
+
+log`
+   Battery: ${check(.99)}
+  CPU Load: ${check(.78)}   ${'{Yellow Warning}'}
+Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
+`;
+```
+{ % endjsfiddle % }
+
+
 ![HeaderOverview.png](res/img/HeaderOverview.png)
 
 #### Project Aims
@@ -78,8 +102,6 @@ result to go *straight to the console.*}
 
 
 ![](../res/img/PostSample.png)
-
-<script async src="//jsfiddle.net/cpriest/mj9u0fkz/embed/js,result/dark/"></script>
 
 #### Nested Styles
 Nesting styles lets you encapsulate styles within one another; when an inner section closes, the fg/bg color states are restored to the containing block.
@@ -171,8 +193,8 @@ log`
 
 
 ```js
-const log = require('micro-chalk')
-	.options({
+const log = require('micro-chalk');
+	log.options({
 		patternAliases: Object.assign({}, log.patternAliases, {
 			'(\\[[^\\]]+\\])' : 'White.blue'
 		}),

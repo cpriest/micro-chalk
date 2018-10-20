@@ -11,3 +11,5 @@ Notepad.md
 @types/JetBrains.d.ts
 local/
 gitbook/
+_book/
+docs/

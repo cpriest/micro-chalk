@@ -56,6 +56,7 @@ let str = log`${out}`;
 
 // console.log(str.replace(/\x1B/g, 'Ɛ'));
 console.log(str);
+console.log(log.reveal(str));
 
 // process.exit();
 
