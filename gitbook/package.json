@@ -1,18 +1,18 @@
 {
-	"name":				"micro-chalk-docs",
-	"version":			"1.0.0",
-	"description":		"Documentation for micro-chalk",
-	"main":				"index.js",
-	"scripts":			{
+	"name": "micro-chalk-docs",
+	"version": "1.0.0",
+	"description": "Documentation for micro-chalk",
+	"main": "index.js",
+	"scripts": {
 		"serve": "gitbook serve",
 		"build": "gitbook build"
 	},
-	"author":			"",
-	"license":			"ISC",
-	"dependencies":		{
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
 		"gitbook-plugin-jsfiddle": "^1.0.1",
-		"juicy-ace-editor":			"^2.0.5",
-		"xterm":					"^3.5.1"
+		"juicy-ace-editor": "^2.0.5",
+		"xterm": "^4.14.1"
 	},
 	"devDependencies": {
 		"ace-builds": "~1.4.1"
