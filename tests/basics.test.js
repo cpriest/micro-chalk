@@ -264,13 +264,13 @@ describe('ANSI', () => {
 
 	describe('bugfixes', () => {
 
-		// Tests that * requires a \s on one side and \S on the other to be used
+		// Tests that * requires a \s before and after the *
 		test('embedded *s work properly when at boundary', () => {
 			expect(log`{Red Some *math examples* are 4 * 4 = 16 and 2 * 3 = 6}`)
 				.toBe(`${FG}${Red}Some ${CSI}1mmath examples${CSI}21m are 4 * 4 = 16 and 2 * 3 = 6${FG_RSET}`);
 		});
 
-		// Tests that _ requires a \s on one side and \S on the other to be used
+		// Tests that _ requires a \s before and after the *
 		test('embedded _s work properly when at boundary', () => {
 			expect(log`{Red The _variables_ are innodb_buffer_pool and innodb_buffer_pool_instances}`)
 				.toBe(`${FG}${Red}The ${CSI}4mvariables${CSI}24m are innodb_buffer_pool and innodb_buffer_pool_instances${FG_RSET}`);

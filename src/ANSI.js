@@ -76,14 +76,14 @@ const SgrAttributeCodes = {
 
 // The entire match is replaced with {value Match0}
 const patternAliases = {
-	'\\*([^\\*]*?)\\*': 'bold',			// Bold
-//	'\\:([^\\:]*?)\\:': 'dim',			// Dim
-//	'\\#([^\\#]*?)\\#': 'italic',		// Italic
-	'\\_([^\\_]*?)\\_': 'underline',	// Underlined
-//	'\\&([^\\&]*?)\\&': 'blink',		// Blinking
-//	'\\!([^\\!]*?)\\!': 'inverse',		// Inverse
-//	'\\=([^\\=]*?)\\=': 'hidden',		// Hidden
-	'\\~([^\\~]*?)\\~': 'strike',		// Strikethrough
+	'(?<=\\s|^)\\*(\\S[^\\*]*?\\S)\\*(?=\\s|$)': 'bold',		// Bold
+//	'(?<=\\s|^)\\:(\\S[^\\:]*?\\S)\\:(?=\\s|$)': 'dim',			// Dim
+//	'(?<=\\s|^)\\#(\\S[^\\#]*?\\S)\\#(?=\\s|$)': 'italic',		// Italic
+	'(?<=\\s|^)\\_(\\S[^\\_]*?\\S)\\_(?=\\s|$)': 'underline',	// Underlined
+//	'(?<=\\s|^)\\&(\\S[^\\&]*?\\S)\\&(?=\\s|$)': 'blink',		// Blinking
+//	'(?<=\\s|^)\\!(\\S[^\\!]*?\\S)\\!(?=\\s|$)': 'inverse',		// Inverse
+//	'(?<=\\s|^)\\=(\\S[^\\=]*?\\S)\\=(?=\\s|$)': 'hidden',		// Hidden
+	'(?<=\\s|^)\\~(\\S[^\\~]*?\\S)\\~(?=\\s|$)': 'strike',		// Strikethrough
 };
 
 const AnsiCSI = {
