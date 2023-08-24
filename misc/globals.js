@@ -5,7 +5,7 @@
  *
  * @param {string} ESC        Escape is passed in as we may want it to be \x1B or 'Ɛ' in the case of tests
  */
-module.exports = (ESC) => {
+export function setup(ESC) {
 	const CSI       = `${ESC}[`;
 	const FG        = `${CSI}38;5;`;
 	const FG24      = `${CSI}38;2;`;

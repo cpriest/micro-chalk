@@ -31,13 +31,16 @@
 	"homepage": "https://github.com/cpriest/micro-chalk",
 	"repository": "github:cpriest/micro-chalk",
 	"main": "index.js",
+	"type": "module",
 	"scripts": {
-		"test": "jest",
-		"demo": "node --experimental-modules --loader ./misc/node-loader.mjs misc/demo.js"
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest",
+		"demo": "cross-env NODE_OPTIONS=--experimental-vm-modules node --experimental-modules --loader ./misc/node-loader.mjs misc/demo.js"
 	},
 	"devDependencies": {
-		"@types/jest": "^27.0.1",
-		"docsify-cli": "^4.4.3"
+		"@types/jest": "^29.5.4",
+		"cross-env": "^7.0.3",
+		"docsify-cli": "^4.4.4",
+		"jest": "^29.6.3"
 	},
 	"dependencies": {}
 }

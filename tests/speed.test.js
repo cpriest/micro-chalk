@@ -1,7 +1,8 @@
 'use strict';
 
-// noinspection ConstantConditionalExpressionJS
-require('../misc/globals.js')(true ? 'Ɛ' : '\x1B');
+import {ANSI}  from '../src/ANSI.js';
+import {setup} from '../misc/globals';
+setup('Ɛ');
 
 const baseOptions = {
 	// No pre-defined aliases
@@ -17,7 +18,7 @@ const baseOptions = {
 	resetCode: undefined,
 };
 
-let log = require('../');
+const log = new ANSI();
 
 beforeEach(() => {
 	log.options(baseOptions);
