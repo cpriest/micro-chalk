@@ -2,6 +2,7 @@
 
 import {ANSI}  from '../src/ANSI.js';
 import {setup} from '../misc/globals';
+import * as fs from "fs";
 setup('Ɛ');
 
 const baseOptions = {
@@ -259,5 +260,35 @@ describe('ANSI', () => {
 				.toBe(`${FG}${Whi}${BG}${Blu}whiteBright.bgBlueBright${FULL_RSET}`);
 		});
 
+	});
+
+	describe('bugfixes', () => {
+
+		// Tests that * requires a \s on one side and \S on the other to be used
+		test('embedded *s work properly when at boundary', () => {
+			expect(log`{Red Some *math examples* are 4 * 4 = 16 and 2 * 3 = 6}`)
+				.toBe(`${FG}${Red}Some ${CSI}1mmath examples${CSI}21m are 4 * 4 = 16 and 2 * 3 = 6${FG_RSET}`);
+		});
+
+		// Tests that _ requires a \s on one side and \S on the other to be used
+		test('embedded _s work properly when at boundary', () => {
+			expect(log`{Red The _variables_ are innodb_buffer_pool and innodb_buffer_pool_instances}`)
+				.toBe(`${FG}${Red}The ${CSI}4mvariables${CSI}24m are innodb_buffer_pool and innodb_buffer_pool_instances${FG_RSET}`);
+		});
+
+		// Tests that embedded JSON {'s don't break the parser
+		describe('embedded JSON in output works properly (unknown tags are ignored)', () => {
+
+			test('manual input/output', () => {
+				expect(log`{Red The JSON string is { "input": "sample text" }}`)
+					.toBe(`${FG}${Red}The JSON string is { "input": "sample text" }${FG_RSET}`);
+			});
+
+			test('JSON.stringify() of package.json', () => {
+				let json = fs.readFileSync('./package.json', 'utf8');
+				expect(log`${json}`)
+					.toBe(json);
+			});
+		});
 	});
 });
