@@ -218,7 +218,7 @@ describe('ANSI', () => {
 
 		test('Builtin Bold, Strikeout and Underline Markup', () => {
 			expect(log`This is *bold* and ~strikethough~ and _underline_`)
-				.toBe(`This is ${CSI}1mbold${CSI}22m${FG}${Whi} and ${CSI}9mstrikethough${CSI}29m and ${CSI}4munderline${CSI}24m`);
+				.toBe(`This is ${CSI}1mbold${CSI}21m and ${CSI}9mstrikethough${CSI}29m and ${CSI}4munderline${CSI}24m`);
 		});
 
 		test('Custom Pattern Alias []', () => {
@@ -238,7 +238,7 @@ describe('ANSI', () => {
 
 		test('Bold / Dim properly resets the color', () => {
 			expect(log`{Red Red *Bold* Red}`)
-				.toBe(`${FG}${Red}Red ${CSI}1mBold${CSI}22m${FG}${Red} Red${FG_RSET}`);
+				.toBe(`${FG}${Red}Red ${CSI}1mBold${CSI}21m Red${FG_RSET}`);
 		});
 	});
 
