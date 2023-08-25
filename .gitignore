@@ -2,3 +2,4 @@ node_modules
 /.idea
 /local
 /_book
+yarn-error.log

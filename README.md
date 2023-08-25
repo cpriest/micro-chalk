@@ -14,7 +14,8 @@ Most existing ``` chalk `template tag` ``` strings should work out of the box, p
 ### Quick Example
 
 ```js
-const log = require('micro-chalk');
+import {ANSI} from 'micro-chalk';
+const log = new ANSI();
 
 let str = log`
 {red There are *eight base colors* which come in _two shades_.}
@@ -44,7 +45,8 @@ With micro-chalk, the first color used is taken as the foreground color while th
 In cases where only the background color is needed, simply use `.Red` as an example.
 
 ```js
-const log = require('micro-chalk');
+import {ANSI} from 'micro-chalk';
+const log = new ANSI();
 
 let str = log`
 {black.White black text on White background.}
@@ -53,16 +55,16 @@ let str = log`
         {Black.white Black text on white background.}
 
     {Yellow Note use of white vs White, all base colors work this way.}
-        {White Title case is bright} and {white lowercase is dim.} 
+        {White Title case is bright} and {white lowercase is dim.}
             red -> Red, blue -> Blue, etc.
-        
+
         chalk          micro-chalk
           {red red}            {red red}
           {redBright redBright}      {Red Red}
-    	 
+
           {green green}          {green green}
           {greenBright greenBright}    {Green Green}
-          
+
           {bgBlue bgBlue}         {.blue .blue}
           {bgBlueBright bgBlueBright}   {.Blue .Blue}
 
@@ -84,7 +86,8 @@ console.log(str);
 #### pre/post Hooks
 
 ```js
-const log = require('micro-chalk')
+import {ANSI} from 'micro-chalk';
+const log = new ANSI()
     .options( {
         pre: (input) => {
             // Do something with pre-processed input, perhaps translation, loading strings, whatnot.
@@ -98,7 +101,7 @@ const log = require('micro-chalk')
     } );
 
 log`
-{White You can use the {red post hook} to cause the 
+{White You can use the {red post hook} to cause the
 result to go *straight to the console.*}
 `;
 ```
@@ -109,11 +112,12 @@ result to go *straight to the console.*}
 Nesting styles lets you encapsulate styles within one another; when an inner section closes, the fg/bg color states are restored to the containing block.
 
 ```js
-const log = require('micro-chalk')
+import {ANSI} from 'micro-chalk';
+const log = new ANSI()
     .options( { post: (output) => { console.log(output); return output; } } );
 
 log`
-{Magenta Most terminals {red support {green the basic} 16 colors},  
+{Magenta Most terminals {red support {green the basic} 16 colors},
 {cyan many terminals} {Yellow support 256 colors} {Blue and 24-bit color.}}
 `;
 ```
@@ -124,7 +128,8 @@ log`
 You can nest [Template Literals](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Template_literals) as deep as you like, each literal will be evaluated and the results may contain further marked sections.  Some sophisticated and pedantic examples are shown below.
 
 ```js
-const log = require('micro-chalk')
+import {ANSI} from 'micro-chalk';
+const log = new ANSI()
     .options( { post: (output) => { console.log(output); return output; } } );
 
 function check(value) {
@@ -148,7 +153,8 @@ Disk Space: ${check(.31)}   ${'{Red Danger {White.Red  Very Low } Disk Space}'}
 Aliasing lets you define aliases for common usage scenarios or define names for those 256 colors at your fingertips.
 
 ```js
-const log = require('micro-chalk')
+import {ANSI} from 'micro-chalk';
+const log = new ANSI()
     .options( {
         aliases: {
             // Regular alias to colors 207, 239, 249
@@ -190,7 +196,8 @@ log`
 #### Additional Features
 
 ```js
-const log = require('micro-chalk')
+import {ANSI} from 'micro-chalk';
+const log = new ANSI()
 	.options({
 		patternAliases: Object.assign({}, log.patternAliases, {
 			'(\\[[^\\]]+\\])' : 'White.blue'
@@ -202,7 +209,7 @@ log`
 - {#FFF.#0000FF Use CSS Hex Codes Directly}
 
 - {124.251  Directly use ANSI 256 color codes}
- 
+
 - {Red *Convenient* _pattern aliasing_ lets you do [nearly anything].}
 `;
 ```
