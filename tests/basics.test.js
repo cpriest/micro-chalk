@@ -1,7 +1,7 @@
 'use strict';
 
 import {ANSI}  from '../src/ANSI.js';
-import {setup} from '../misc/globals';
+import {setup} from '../misc/globals.js';
 import * as fs from "fs";
 setup('Ɛ');
 

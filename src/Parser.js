@@ -32,6 +32,10 @@ export class Parser {
 		this.resetCode = '';
 	}
 
+	/**
+	 * Returns a proxy object that will call the TagParser function when the template literal is evaluated
+	 * @returns {function(*, ...[*]): *}
+	 */
 	proxy() {
 		// noinspection JSCheckFunctionSignatures
 		return new Proxy(this.TagParser, {
@@ -48,6 +52,14 @@ export class Parser {
 		});
 	}
 
+	/**
+	 * The template literal tag function that will be called when the template literal is evaluated
+	 *
+	 * @param {string|string[]} strings
+	 * @param {string|string[]} keys
+	 *
+	 * @returns {string}
+	 */
 	TagParser(strings, ...keys) {
 		const args  = [].slice.call(arguments, 1);
 		const parts = [strings.raw[0]];
@@ -62,8 +74,9 @@ export class Parser {
 		if(this.pre && typeof this.pre == 'function')
 			input = this.pre(input);
 
-		// Mask /\\[{}]/ with something else
+		// Markup the input string after masking any escaped characters
 		let output = this.markup(
+			// Mask /\\[{}]/ with something else
 			mask(input),
 		);
 
@@ -132,7 +145,7 @@ export class Parser {
 	 * @return {[string, array]}
 	 */
 	extract(input) {
-		let r       = /{(\S+)\s([^{}]+)}/g,
+		let r       = /{(\S*\s*)([^{}]+)}/g,
 			entries = [],
 			m;
 

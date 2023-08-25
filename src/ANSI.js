@@ -167,12 +167,14 @@ export class ANSI extends Parser {
 	/**
 	 * Returns the opening/closing ansi codes for the given ${desc} elements
 	 *
-	 * @param {string} desc      The descriptive replacements
+	 * @param {string} input      The descriptive replacements
 	 * @param {object} prevTypes  The previous enclosing types from the parent context
 	 *
 	 * @return {object} Opening/Closing Ansi Codes
 	 */
-	xlate(desc, prevTypes) {
+	xlate(input, prevTypes) {
+		let desc = input.trim();
+
 		while(this.aliases[desc])
 			desc = String(this.aliases[desc]);
 
@@ -240,6 +242,11 @@ export class ANSI extends Parser {
 		result.open  = colorOpen + result.open;
 		result.close = result.close + colorClose;
 
+		// If we have no results, then we should just restore the brackets and desc
+		if(result.open === '' && result.close === '') {
+			result.open = `{${input}`;
+			result.close = '}';
+		}
 		return result;
 	}
 
