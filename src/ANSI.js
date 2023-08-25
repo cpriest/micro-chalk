@@ -109,7 +109,7 @@ function cssColorToAnsi24(css) {
 	if(css.length === 3)
 		css = css[0] + css[0] + css[1] + css[1] + css[2] + css[2];
 
-	return parseInt(css.substr(0, 2), 16) + ';' + parseInt(css.substr(2, 2), 16) + ';' + parseInt(css.substr(4, 2), 16);
+	return parseInt(css.substring(0, 2), 16) + ';' + parseInt(css.substring(2, 4), 16) + ';' + parseInt(css.substring(4, 6), 16);
 }
 
 export class ANSI extends Parser {
@@ -170,7 +170,7 @@ export class ANSI extends Parser {
 	 * @param {string} input      The descriptive replacements
 	 * @param {object} prevTypes  The previous enclosing types from the parent context
 	 *
-	 * @return {object} Opening/Closing Ansi Codes
+	 * @return {Object} Opening/Closing Ansi Codes
 	 */
 	xlate(input, prevTypes) {
 		let desc = input.trim();
@@ -267,7 +267,7 @@ export class ANSI extends Parser {
 		while(chalkAliases[desc]) {
 			desc = chalkAliases[desc];
 			if(desc[0] == '.')
-				desc = desc.substr(1);
+				desc = desc.substring(1);
 		}
 
 		if(!isNaN(parseInt(desc)))

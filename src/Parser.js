@@ -165,7 +165,7 @@ export class Parser {
 	 * @param {string} input      The descriptive replacements
 	 * @param {object} prevTypes  The previous enclosing types from the parent context
 	 *
-	 * @return {object} Opening/Closing Ansi Codes
+	 * @return {Object} Opening/Closing Ansi Codes
 	 */
 	xlate(input, prevTypes) {
 		throw 'xlate() must be implemented by sub-class';
